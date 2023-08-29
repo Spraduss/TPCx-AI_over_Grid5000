@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>accuracy module &mdash; Surprise 1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dataset module" href="dataset.html" />
+    <link rel="prev" title="similarities module" href="similarities.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Surprise
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prediction_algorithms.html">Using prediction algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building_custom_algo.html">How to build your own prediction algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notation_standards.html">Notation standards, References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQ.html">FAQ</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="prediction_algorithms_package.html">prediction_algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_selection.html">The model_selection package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="similarities.html">similarities module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">accuracy module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">dataset module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trainset.html">Trainset class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reader.html">Reader class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dump.html">dump module</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Surprise</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>accuracy module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/accuracy.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-surprise.accuracy">
+<span id="accuracy-module"></span><span id="accuracy"></span><h1>accuracy module<a class="headerlink" href="#module-surprise.accuracy" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="#module-surprise.accuracy" title="surprise.accuracy"><code class="xref py py-mod docutils literal notranslate"><span class="pre">surprise.accuracy</span></code></a> module provides tools for computing accuracy
+metrics on a set of predictions.</p>
+<p>Available accuracy metrics:</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#surprise.accuracy.rmse" title="surprise.accuracy.rmse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rmse</span></code></a></p></td>
+<td><p>Compute RMSE (Root Mean Squared Error).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#surprise.accuracy.mse" title="surprise.accuracy.mse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mse</span></code></a></p></td>
+<td><p>Compute MSE (Mean Squared Error).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#surprise.accuracy.mae" title="surprise.accuracy.mae"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mae</span></code></a></p></td>
+<td><p>Compute MAE (Mean Absolute Error).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#surprise.accuracy.fcp" title="surprise.accuracy.fcp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fcp</span></code></a></p></td>
+<td><p>Compute FCP (Fraction of Concordant Pairs).</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt id="surprise.accuracy.fcp">
+<code class="sig-prename descclassname">surprise.accuracy.</code><code class="sig-name descname">fcp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predictions</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/surprise/accuracy.html#fcp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#surprise.accuracy.fcp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute FCP (Fraction of Concordant Pairs).</p>
+<p>Computed as described in paper <a class="reference external" href="http://www.ijcai.org/Proceedings/13/Papers/449.pdf">Collaborative Filtering on Ordinal User
+Feedback</a> by Koren
+and Sill, section 5.2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="predictions_module.html#surprise.prediction_algorithms.predictions.Prediction" title="surprise.prediction_algorithms.predictions.Prediction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Prediction</span></code></a>) – A list of predictions, as returned by the <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.test" title="surprise.prediction_algorithms.algo_base.AlgoBase.test"><code class="xref py py-meth docutils literal notranslate"><span class="pre">test()</span></code></a> method.</p></li>
+<li><p><strong>verbose</strong> – If True, will print computed value. Default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The Fraction of Concordant Pairs.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When <code class="docutils literal notranslate"><span class="pre">predictions</span></code> is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surprise.accuracy.mae">
+<code class="sig-prename descclassname">surprise.accuracy.</code><code class="sig-name descname">mae</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predictions</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/surprise/accuracy.html#mae"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#surprise.accuracy.mae" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute MAE (Mean Absolute Error).</p>
+<div class="math notranslate nohighlight">
+\[\text{MAE} = \frac{1}{|\hat{R}|} \sum_{\hat{r}_{ui} \in
+\hat{R}}|r_{ui} - \hat{r}_{ui}|\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="predictions_module.html#surprise.prediction_algorithms.predictions.Prediction" title="surprise.prediction_algorithms.predictions.Prediction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Prediction</span></code></a>) – A list of predictions, as returned by the <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.test" title="surprise.prediction_algorithms.algo_base.AlgoBase.test"><code class="xref py py-meth docutils literal notranslate"><span class="pre">test()</span></code></a> method.</p></li>
+<li><p><strong>verbose</strong> – If True, will print computed value. Default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The Mean Absolute Error of predictions.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When <code class="docutils literal notranslate"><span class="pre">predictions</span></code> is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surprise.accuracy.mse">
+<code class="sig-prename descclassname">surprise.accuracy.</code><code class="sig-name descname">mse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predictions</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/surprise/accuracy.html#mse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#surprise.accuracy.mse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute MSE (Mean Squared Error).</p>
+<div class="math notranslate nohighlight">
+\[\text{MSE} = \frac{1}{|\hat{R}|} \sum_{\hat{r}_{ui} \in
+\hat{R}}(r_{ui} - \hat{r}_{ui})^2.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="predictions_module.html#surprise.prediction_algorithms.predictions.Prediction" title="surprise.prediction_algorithms.predictions.Prediction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Prediction</span></code></a>) – A list of predictions, as returned by the <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.test" title="surprise.prediction_algorithms.algo_base.AlgoBase.test"><code class="xref py py-meth docutils literal notranslate"><span class="pre">test()</span></code></a> method.</p></li>
+<li><p><strong>verbose</strong> – If True, will print computed value. Default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The Mean Squared Error of predictions.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When <code class="docutils literal notranslate"><span class="pre">predictions</span></code> is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surprise.accuracy.rmse">
+<code class="sig-prename descclassname">surprise.accuracy.</code><code class="sig-name descname">rmse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predictions</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/surprise/accuracy.html#rmse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#surprise.accuracy.rmse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute RMSE (Root Mean Squared Error).</p>
+<div class="math notranslate nohighlight">
+\[\text{RMSE} = \sqrt{\frac{1}{|\hat{R}|} \sum_{\hat{r}_{ui} \in
+\hat{R}}(r_{ui} - \hat{r}_{ui})^2}.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="predictions_module.html#surprise.prediction_algorithms.predictions.Prediction" title="surprise.prediction_algorithms.predictions.Prediction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Prediction</span></code></a>) – A list of predictions, as returned by the <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.test" title="surprise.prediction_algorithms.algo_base.AlgoBase.test"><code class="xref py py-meth docutils literal notranslate"><span class="pre">test()</span></code></a> method.</p></li>
+<li><p><strong>verbose</strong> – If True, will print computed value. Default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The Root Mean Squared Error of predictions.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When <code class="docutils literal notranslate"><span class="pre">predictions</span></code> is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="dataset.html" class="btn btn-neutral float-right" title="dataset module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="similarities.html" class="btn btn-neutral float-left" title="similarities module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2015, Nicolas Hug
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

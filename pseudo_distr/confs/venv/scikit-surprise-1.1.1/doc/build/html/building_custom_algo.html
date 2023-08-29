@@ -1,0 +1,423 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>How to build your own prediction algorithm &mdash; Surprise 1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Notation standards, References" href="notation_standards.html" />
+    <link rel="prev" title="Using prediction algorithms" href="prediction_algorithms.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Surprise
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prediction_algorithms.html">Using prediction algorithms</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How to build your own prediction algorithm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-basics">The basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-fit-method">The <code class="docutils literal notranslate"><span class="pre">fit</span></code> method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-trainset-attribute">The <code class="docutils literal notranslate"><span class="pre">trainset</span></code> attribute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#when-the-prediction-is-impossible">When the prediction is impossible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-similarities-and-baselines">Using similarities and baselines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notation_standards.html">Notation standards, References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQ.html">FAQ</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="prediction_algorithms_package.html">prediction_algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_selection.html">The model_selection package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="similarities.html">similarities module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accuracy.html">accuracy module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">dataset module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trainset.html">Trainset class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reader.html">Reader class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dump.html">dump module</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Surprise</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>How to build your own prediction algorithm</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/building_custom_algo.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="how-to-build-your-own-prediction-algorithm">
+<span id="building-custom-algo"></span><h1>How to build your own prediction algorithm<a class="headerlink" href="#how-to-build-your-own-prediction-algorithm" title="Permalink to this headline">¶</a></h1>
+<p>This page describes how to build a custom prediction algorithm using Surprise.</p>
+<div class="section" id="the-basics">
+<h2>The basics<a class="headerlink" href="#the-basics" title="Permalink to this headline">¶</a></h2>
+<p>Want to get your hands dirty? Cool.</p>
+<p>Creating your own prediction algorithm is pretty simple: an algorithm is
+nothing but a class derived from <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase" title="surprise.prediction_algorithms.algo_base.AlgoBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">AlgoBase</span></code></a> that has an <code class="docutils literal notranslate"><span class="pre">estimate</span></code>
+method.  This is the method that is called by the <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.predict" title="surprise.prediction_algorithms.algo_base.AlgoBase.predict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">predict()</span></code></a> method. It takes
+in an <strong>inner</strong> user id, an <strong>inner</strong> item id (see <a class="reference internal" href="FAQ.html#raw-inner-note"><span class="std std-ref">this note</span></a>), and returns the estimated rating <span class="math notranslate nohighlight">\(\hat{r}_{ui}\)</span>:</p>
+<div class="literal-block-wrapper docutils container" id="most-basic-algorithm-py">
+<div class="code-block-caption"><span class="caption-text">From file <code class="docutils literal notranslate"><span class="pre">examples/building_custom_algorithms/most_basic_algorithm.py</span></code></span><a class="headerlink" href="#most-basic-algorithm-py" title="Permalink to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">AlgoBase</span>
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">from</span> <span class="nn">surprise.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span>
+
+
+<span class="k">class</span> <span class="nc">MyOwnAlgorithm</span><span class="p">(</span><span class="n">AlgoBase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># Always call base method before doing anything.</span>
+        <span class="n">AlgoBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="mi">3</span>
+
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">load_builtin</span><span class="p">(</span><span class="s1">&#39;ml-100k&#39;</span><span class="p">)</span>
+<span class="n">algo</span> <span class="o">=</span> <span class="n">MyOwnAlgorithm</span><span class="p">()</span>
+
+<span class="n">cross_validate</span><span class="p">(</span><span class="n">algo</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>This algorithm is the dumbest we could have thought of: it just predicts a
+rating of 3, regardless of users and items.</p>
+<p>If you want to store additional information about the prediction, you can also
+return a dictionary with given details:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+
+    <span class="n">details</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;info1&#39;</span> <span class="p">:</span> <span class="s1">&#39;That was&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;info2&#39;</span> <span class="p">:</span> <span class="s1">&#39;easy stuff :)&#39;</span><span class="p">}</span>
+    <span class="k">return</span> <span class="mi">3</span><span class="p">,</span> <span class="n">details</span>
+</pre></div>
+</div>
+<p>This dictionary will be stored in the <a class="reference internal" href="predictions_module.html#surprise.prediction_algorithms.predictions.Prediction" title="surprise.prediction_algorithms.predictions.Prediction"><code class="xref py py-class docutils literal notranslate"><span class="pre">prediction</span></code></a> as the <code class="docutils literal notranslate"><span class="pre">details</span></code>
+field and can be used for <a class="reference internal" href="FAQ.html#further-analysis"><span class="std std-ref">later analysis</span></a>.</p>
+</div>
+<div class="section" id="the-fit-method">
+<h2>The <code class="docutils literal notranslate"><span class="pre">fit</span></code> method<a class="headerlink" href="#the-fit-method" title="Permalink to this headline">¶</a></h2>
+<p>Now, let’s make a slightly cleverer algorithm that predicts the average of all
+the ratings of the trainset. As this is a constant value that does not depend
+on current user or item, we would rather compute it once and for all. This can
+be done by defining the <code class="docutils literal notranslate"><span class="pre">fit</span></code> method:</p>
+<div class="literal-block-wrapper docutils container" id="most-basic-algorithm2-py">
+<div class="code-block-caption"><span class="caption-text">From file <code class="docutils literal notranslate"><span class="pre">examples/building_custom_algorithms/most_basic_algorithm2.py</span></code></span><a class="headerlink" href="#most-basic-algorithm2-py" title="Permalink to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyOwnAlgorithm</span><span class="p">(</span><span class="n">AlgoBase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># Always call base method before doing anything.</span>
+        <span class="n">AlgoBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainset</span><span class="p">):</span>
+
+        <span class="c1"># Here again: call base method before doing anything.</span>
+        <span class="n">AlgoBase</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainset</span><span class="p">)</span>
+
+        <span class="c1"># Compute the average rating. We might as well use the</span>
+        <span class="c1"># trainset.global_mean attribute ;)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">the_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">r</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">all_ratings</span><span class="p">()])</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">the_mean</span>
+</pre></div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">fit</span></code> method is called e.g. by the <a class="reference internal" href="model_selection.html#surprise.model_selection.validation.cross_validate" title="surprise.model_selection.validation.cross_validate"><code class="xref py py-func docutils literal notranslate"><span class="pre">cross_validate</span></code></a> function at each fold of
+a cross-validation process, (but you can also <a class="reference internal" href="getting_started.html#use-cross-validation-iterators"><span class="std std-ref">call it yourself</span></a>).  Before doing anything, you should call the
+base class <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.fit" title="surprise.prediction_algorithms.algo_base.AlgoBase.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fit()</span></code></a> method.</p>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">fit()</span></code> method returns <code class="docutils literal notranslate"><span class="pre">self</span></code>. This allows to use expression
+like <code class="docutils literal notranslate"><span class="pre">algo.fit(trainset).test(testset)</span></code>.</p>
+</div>
+<div class="section" id="the-trainset-attribute">
+<h2>The <code class="docutils literal notranslate"><span class="pre">trainset</span></code> attribute<a class="headerlink" href="#the-trainset-attribute" title="Permalink to this headline">¶</a></h2>
+<p>Once the base class <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.fit" title="surprise.prediction_algorithms.algo_base.AlgoBase.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fit()</span></code></a> method has returned,
+all the info you need about the current training set (rating values, etc…) is
+stored in the <code class="docutils literal notranslate"><span class="pre">self.trainset</span></code> attribute. This is a <a class="reference internal" href="trainset.html#surprise.Trainset" title="surprise.Trainset"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trainset</span></code></a> object that has many attributes and methods of
+interest for prediction.</p>
+<p>To illustrate its usage, let’s make an algorithm that predicts an average
+between the mean of all ratings, the mean rating of the user and the mean
+rating for the item:</p>
+<div class="literal-block-wrapper docutils container" id="mean-rating-user-item-py">
+<div class="code-block-caption"><span class="caption-text">From file <code class="docutils literal notranslate"><span class="pre">examples/building_custom_algorithms/mean_rating_user_item.py</span></code></span><a class="headerlink" href="#mean-rating-user-item-py" title="Permalink to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+
+        <span class="n">sum_means</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">global_mean</span>
+        <span class="n">div</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">knows_user</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+            <span class="n">sum_means</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">r</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">ur</span><span class="p">[</span><span class="n">u</span><span class="p">]])</span>
+            <span class="n">div</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">knows_item</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+            <span class="n">sum_means</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">r</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">ir</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+            <span class="n">div</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">sum_means</span> <span class="o">/</span> <span class="n">div</span>
+</pre></div>
+</div>
+</div>
+<p>Note that it would have been a better idea to compute all the user means in the
+<code class="docutils literal notranslate"><span class="pre">fit</span></code> method, thus avoiding the same computations multiple times.</p>
+</div>
+<div class="section" id="when-the-prediction-is-impossible">
+<h2>When the prediction is impossible<a class="headerlink" href="#when-the-prediction-is-impossible" title="Permalink to this headline">¶</a></h2>
+<p>It’s up to your algorithm to decide if it can or cannot yield a prediction. If
+the prediction is impossible, then you can raise the
+<a class="reference internal" href="predictions_module.html#surprise.prediction_algorithms.predictions.PredictionImpossible" title="surprise.prediction_algorithms.predictions.PredictionImpossible"><code class="xref py py-class docutils literal notranslate"><span class="pre">PredictionImpossible</span></code></a> exception.
+You’ll need to import it first:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">PredictionImpossible</span>
+</pre></div>
+</div>
+<p>This exception will be caught by the <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.predict" title="surprise.prediction_algorithms.algo_base.AlgoBase.predict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">predict()</span></code></a> method, and the
+estimation <span class="math notranslate nohighlight">\(\hat{r}_{ui}\)</span> will be set according to
+the <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.default_prediction" title="surprise.prediction_algorithms.algo_base.AlgoBase.default_prediction"><code class="xref py py-meth docutils literal notranslate"><span class="pre">default_prediction()</span></code></a> method,
+which can be overridden. By default, it returns the average of all ratings in
+the trainset.</p>
+</div>
+<div class="section" id="using-similarities-and-baselines">
+<h2>Using similarities and baselines<a class="headerlink" href="#using-similarities-and-baselines" title="Permalink to this headline">¶</a></h2>
+<p>Should your algorithm use a similarity measure or baseline estimates, you’ll
+need to accept <code class="docutils literal notranslate"><span class="pre">bsl_options</span></code> and <code class="docutils literal notranslate"><span class="pre">sim_options</span></code> as parameters to the
+<code class="docutils literal notranslate"><span class="pre">__init__</span></code> method, and pass them along to the Base class. See how to use
+these parameters in the <a class="reference internal" href="prediction_algorithms.html#prediction-algorithms"><span class="std std-ref">Using prediction algorithms</span></a> section.</p>
+<p>Methods <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.compute_baselines" title="surprise.prediction_algorithms.algo_base.AlgoBase.compute_baselines"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compute_baselines()</span></code></a>   and
+<a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.compute_similarities" title="surprise.prediction_algorithms.algo_base.AlgoBase.compute_similarities"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compute_similarities()</span></code></a> can
+be called in the <code class="docutils literal notranslate"><span class="pre">fit</span></code> method (or anywhere else).</p>
+<div class="literal-block-wrapper docutils container" id="with-baselines-or-sim-py">
+<div class="code-block-caption"><span class="caption-text">From file <code class="docutils literal notranslate"><span class="pre">examples/building_custom_algorithms/.with_baselines_or_sim.py</span></code></span><a class="headerlink" href="#with-baselines-or-sim-py" title="Permalink to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyOwnAlgorithm</span><span class="p">(</span><span class="n">AlgoBase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim_options</span><span class="o">=</span><span class="p">{},</span> <span class="n">bsl_options</span><span class="o">=</span><span class="p">{}):</span>
+
+        <span class="n">AlgoBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim_options</span><span class="o">=</span><span class="n">sim_options</span><span class="p">,</span>
+                          <span class="n">bsl_options</span><span class="o">=</span><span class="n">bsl_options</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainset</span><span class="p">):</span>
+
+        <span class="n">AlgoBase</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainset</span><span class="p">)</span>
+
+        <span class="c1"># Compute baselines and similarities</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bu</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_baselines</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_similarities</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">knows_user</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">knows_item</span><span class="p">(</span><span class="n">i</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="n">PredictionImpossible</span><span class="p">(</span><span class="s1">&#39;User and/or item is unknown.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Compute similarities between u and v, where v describes all other</span>
+        <span class="c1"># users that have also rated item i.</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[(</span><span class="n">v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="p">[</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">ir</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="c1"># Sort these neighbors by similarity</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The 3 nearest neighbors of user&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">u</span><span class="p">),</span> <span class="s1">&#39;are:&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">sim_uv</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">[:</span><span class="mi">3</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;user </span><span class="si">{0:}</span><span class="s1"> with sim </span><span class="si">{1:1.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">sim_uv</span><span class="p">))</span>
+
+        <span class="c1"># ... Aaaaand return the baseline estimate anyway ;)</span>
+</pre></div>
+</div>
+</div>
+<p>Feel free to explore the prediction_algorithms package <a class="reference external" href="https://github.com/NicolasHug/Surprise/tree/master/surprise/prediction_algorithms">source</a>
+to get an idea of what can be done.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="notation_standards.html" class="btn btn-neutral float-right" title="Notation standards, References" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="prediction_algorithms.html" class="btn btn-neutral float-left" title="Using prediction algorithms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2015, Nicolas Hug
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

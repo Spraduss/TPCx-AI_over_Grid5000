@@ -1,0 +1,712 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>surprise.model_selection.search &mdash; Surprise 1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> Surprise
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../prediction_algorithms.html">Using prediction algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../building_custom_algo.html">How to build your own prediction algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notation_standards.html">Notation standards, References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../FAQ.html">FAQ</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../prediction_algorithms_package.html">prediction_algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_selection.html">The model_selection package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../similarities.html">similarities module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../accuracy.html">accuracy module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dataset.html">dataset module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../trainset.html">Trainset class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reader.html">Reader class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dump.html">dump module</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Surprise</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>surprise.model_selection.search</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for surprise.model_selection.search</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span>
+                        <span class="n">unicode_literals</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span>
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">delayed</span>
+<span class="kn">from</span> <span class="nn">six</span> <span class="kn">import</span> <span class="n">moves</span><span class="p">,</span> <span class="n">string_types</span><span class="p">,</span> <span class="n">with_metaclass</span>
+
+<span class="kn">from</span> <span class="nn">.split</span> <span class="kn">import</span> <span class="n">get_cv</span>
+<span class="kn">from</span> <span class="nn">.validation</span> <span class="kn">import</span> <span class="n">fit_and_score</span>
+<span class="kn">from</span> <span class="nn">..dataset</span> <span class="kn">import</span> <span class="n">DatasetUserFolds</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">get_rng</span>
+
+
+<span class="k">class</span> <span class="nc">BaseSearchCV</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">ABCMeta</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for hyper parameter search with cross-validation.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">algo_class</span><span class="p">,</span> <span class="n">measures</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;rmse&#39;</span><span class="p">,</span> <span class="s1">&#39;mae&#39;</span><span class="p">],</span> <span class="n">cv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_train_measures</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">pre_dispatch</span><span class="o">=</span><span class="s1">&#39;2*n_jobs&#39;</span><span class="p">,</span> <span class="n">joblib_verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">algo_class</span> <span class="o">=</span> <span class="n">algo_class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measures</span> <span class="o">=</span> <span class="p">[</span><span class="n">measure</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">measures</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cv</span> <span class="o">=</span> <span class="n">cv</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">refit</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">refit</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">measures</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;It looks like the measure you want to use &#39;</span>
+                                 <span class="s1">&#39;with refit (</span><span class="si">{}</span><span class="s1">) is not in the measures &#39;</span>
+                                 <span class="s1">&#39;parameter&#39;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">refit</span> <span class="o">=</span> <span class="n">refit</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">refit</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">measures</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refit</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">return_train_measures</span> <span class="o">=</span> <span class="n">return_train_measures</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="n">n_jobs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pre_dispatch</span> <span class="o">=</span> <span class="n">pre_dispatch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">joblib_verbose</span> <span class="o">=</span> <span class="n">joblib_verbose</span>
+
+    <span class="k">def</span> <span class="nf">_parse_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="c1"># As sim_options and bsl_options are dictionaries, they require a</span>
+        <span class="c1"># special treatment.</span>
+
+        <span class="k">if</span> <span class="s1">&#39;sim_options&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">sim_options</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_options&#39;</span><span class="p">]</span>
+            <span class="n">sim_options_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">sim_options</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span>
+                                <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">sim_options</span><span class="o">.</span><span class="n">values</span><span class="p">())]</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_options&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim_options_list</span>
+
+        <span class="k">if</span> <span class="s1">&#39;bsl_options&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">bsl_options</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;bsl_options&#39;</span><span class="p">]</span>
+            <span class="n">bsl_options_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">bsl_options</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span>
+                                <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">bsl_options</span><span class="o">.</span><span class="n">values</span><span class="p">())]</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;bsl_options&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bsl_options_list</span>
+
+        <span class="k">return</span> <span class="n">params</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Runs the ``fit()`` method of the algorithm for all parameter</span>
+<span class="sd">        combinations, over different splits given by the ``cv`` parameter.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (:obj:`Dataset &lt;surprise.dataset.Dataset&gt;`): The dataset on</span>
+<span class="sd">                which to evaluate the algorithm, in parallel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refit</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">DatasetUserFolds</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;refit cannot be used when data has been &#39;</span>
+                             <span class="s1">&#39;loaded with load_from_folds().&#39;</span><span class="p">)</span>
+
+        <span class="n">cv</span> <span class="o">=</span> <span class="n">get_cv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cv</span><span class="p">)</span>
+
+        <span class="n">delayed_list</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">delayed</span><span class="p">(</span><span class="n">fit_and_score</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">algo_class</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">),</span> <span class="n">trainset</span><span class="p">,</span>
+                                   <span class="n">testset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">measures</span><span class="p">,</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">return_train_measures</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">params</span><span class="p">,</span> <span class="p">(</span><span class="n">trainset</span><span class="p">,</span> <span class="n">testset</span><span class="p">)</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_combinations</span><span class="p">,</span>
+                                                       <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">,</span>
+                       <span class="n">pre_dispatch</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_dispatch</span><span class="p">,</span>
+                       <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">joblib_verbose</span><span class="p">)(</span><span class="n">delayed_list</span><span class="p">)</span>
+
+        <span class="p">(</span><span class="n">test_measures_dicts</span><span class="p">,</span>
+         <span class="n">train_measures_dicts</span><span class="p">,</span>
+         <span class="n">fit_times</span><span class="p">,</span>
+         <span class="n">test_times</span><span class="p">)</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="c1"># test_measures_dicts is a list of dict like this:</span>
+        <span class="c1"># [{&#39;mae&#39;: 1, &#39;rmse&#39;: 2}, {&#39;mae&#39;: 2, &#39;rmse&#39;: 3} ...]</span>
+        <span class="c1"># E.g. for 5 splits, the first 5 dicts are for the first param</span>
+        <span class="c1"># combination, the next 5 dicts are for the second param combination,</span>
+        <span class="c1"># etc...</span>
+        <span class="c1"># We convert it into a dict of list:</span>
+        <span class="c1"># {&#39;mae&#39;: [1, 2, ...], &#39;rmse&#39;: [2, 3, ...]}</span>
+        <span class="c1"># Each list is still of size n_parameters_combinations * n_splits.</span>
+        <span class="c1"># Then, reshape each list to have 2-D arrays of shape</span>
+        <span class="c1"># (n_parameters_combinations, n_splits). This way we can easily compute</span>
+        <span class="c1"># the mean and std dev over all splits or over all param comb.</span>
+        <span class="n">test_measures</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">train_measures</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">new_shape</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_combinations</span><span class="p">),</span> <span class="n">cv</span><span class="o">.</span><span class="n">get_n_folds</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">measures</span><span class="p">:</span>
+            <span class="n">test_measures</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">test_measures_dicts</span><span class="p">])</span>
+            <span class="n">test_measures</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_measures</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">new_shape</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_train_measures</span><span class="p">:</span>
+                <span class="n">train_measures</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span>
+                                                <span class="n">train_measures_dicts</span><span class="p">])</span>
+                <span class="n">train_measures</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">train_measures</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">new_shape</span><span class="p">)</span>
+
+        <span class="n">cv_results</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">best_index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">best_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">best_score</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">best_estimator</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">measures</span><span class="p">:</span>
+            <span class="c1"># cv_results: set measures for each split and each param comb</span>
+            <span class="k">for</span> <span class="n">split</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">get_n_folds</span><span class="p">()):</span>
+                <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;split</span><span class="si">{0}</span><span class="s1">_test_</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">split</span><span class="p">,</span> <span class="n">m</span><span class="p">)]</span> <span class="o">=</span> \
+                    <span class="n">test_measures</span><span class="p">[</span><span class="n">m</span><span class="p">][:,</span> <span class="n">split</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_train_measures</span><span class="p">:</span>
+                    <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;split</span><span class="si">{0}</span><span class="s1">_train_</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">split</span><span class="p">,</span> <span class="n">m</span><span class="p">)]</span> <span class="o">=</span> \
+                        <span class="n">train_measures</span><span class="p">[</span><span class="n">m</span><span class="p">][:,</span> <span class="n">split</span><span class="p">]</span>
+
+            <span class="c1"># cv_results: set mean and std over all splits (testset and</span>
+            <span class="c1"># trainset) for each param comb</span>
+            <span class="n">mean_test_measures</span> <span class="o">=</span> <span class="n">test_measures</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;mean_test_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span> <span class="o">=</span> <span class="n">mean_test_measures</span>
+            <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;std_test_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span> <span class="o">=</span> <span class="n">test_measures</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_train_measures</span><span class="p">:</span>
+                <span class="n">mean_train_measures</span> <span class="o">=</span> <span class="n">train_measures</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;mean_train_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span> <span class="o">=</span> <span class="n">mean_train_measures</span>
+                <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;std_train_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span> <span class="o">=</span> \
+                    <span class="n">train_measures</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># cv_results: set rank of each param comb</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;mean_test_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
+            <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;rank_test_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+            <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;rank_test_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">)][</span><span class="n">indices</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># sklearn starts rankings at 1 as well.</span>
+
+            <span class="c1"># set best_index, and best_xxxx attributes</span>
+            <span class="k">if</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;mae&#39;</span><span class="p">,</span> <span class="s1">&#39;rmse&#39;</span><span class="p">,</span> <span class="s1">&#39;mse&#39;</span><span class="p">):</span>
+                <span class="n">best_index</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean_test_measures</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;fcp&#39;</span><span class="p">,):</span>
+                <span class="n">best_index</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean_test_measures</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+            <span class="n">best_params</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_combinations</span><span class="p">[</span><span class="n">best_index</span><span class="p">[</span><span class="n">m</span><span class="p">]]</span>
+            <span class="n">best_score</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean_test_measures</span><span class="p">[</span><span class="n">best_index</span><span class="p">[</span><span class="n">m</span><span class="p">]]</span>
+            <span class="n">best_estimator</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">algo_class</span><span class="p">(</span><span class="o">**</span><span class="n">best_params</span><span class="p">[</span><span class="n">m</span><span class="p">])</span>
+
+        <span class="c1"># Cv results: set fit and train times (mean, std)</span>
+        <span class="n">fit_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fit_times</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">new_shape</span><span class="p">)</span>
+        <span class="n">test_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">test_times</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">new_shape</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">times</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">((</span><span class="s1">&#39;fit&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">),</span> <span class="p">(</span><span class="n">fit_times</span><span class="p">,</span> <span class="n">test_times</span><span class="p">)):</span>
+            <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;mean_</span><span class="si">{}</span><span class="s1">_time&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">)]</span> <span class="o">=</span> <span class="n">times</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;std_</span><span class="si">{}</span><span class="s1">_time&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">)]</span> <span class="o">=</span> <span class="n">times</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># cv_results: set params key and each param_* values</span>
+        <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_combinations</span>
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_combinations</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;param_&#39;</span> <span class="o">+</span> <span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">comb</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="k">for</span> <span class="n">comb</span> <span class="ow">in</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">param_combinations</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refit</span><span class="p">:</span>
+            <span class="n">best_estimator</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">refit</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">build_full_trainset</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_index</span> <span class="o">=</span> <span class="n">best_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_params</span> <span class="o">=</span> <span class="n">best_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span> <span class="o">=</span> <span class="n">best_score</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_estimator</span> <span class="o">=</span> <span class="n">best_estimator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cv_results</span> <span class="o">=</span> <span class="n">cv_results</span>
+
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testset</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call ``test()`` on the estimator with the best found parameters</span>
+<span class="sd">        (according the the ``refit`` parameter). See :meth:`AlgoBase.test()</span>
+<span class="sd">        &lt;surprise.prediction_algorithms.algo_base.AlgoBase.test&gt;`.</span>
+
+<span class="sd">        Only available if ``refit`` is not ``False``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">refit</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;refit is False, cannot use test()&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_estimator</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">refit</span><span class="p">]</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">testset</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call ``predict()`` on the estimator with the best found parameters</span>
+<span class="sd">        (according the the ``refit`` parameter). See :meth:`AlgoBase.predict()</span>
+<span class="sd">        &lt;surprise.prediction_algorithms.algo_base.AlgoBase.predict&gt;`.</span>
+
+<span class="sd">        Only available if ``refit`` is not ``False``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">refit</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;refit is False, cannot use predict()&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_estimator</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">refit</span><span class="p">]</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="GridSearchCV"><a class="viewcode-back" href="../../../model_selection.html#surprise.model_selection.search.GridSearchCV">[docs]</a><span class="k">class</span> <span class="nc">GridSearchCV</span><span class="p">(</span><span class="n">BaseSearchCV</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The :class:`GridSearchCV` class computes accuracy metrics for an</span>
+<span class="sd">    algorithm on various combinations of parameters, over a cross-validation</span>
+<span class="sd">    procedure. This is useful for finding the best set of parameters for a</span>
+<span class="sd">    prediction algorithm. It is analogous to `GridSearchCV</span>
+<span class="sd">    &lt;http://scikit-learn.org/stable/modules/generated/sklearn.</span>
+<span class="sd">    model_selection.GridSearchCV.html&gt;`_ from scikit-learn.</span>
+
+<span class="sd">    See an example in the :ref:`User Guide &lt;tuning_algorithm_parameters&gt;`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        algo_class(:obj:`AlgoBase \</span>
+<span class="sd">            &lt;surprise.prediction_algorithms.algo_base.AlgoBase&gt;`): The class</span>
+<span class="sd">            of the algorithm to evaluate.</span>
+<span class="sd">        param_grid(dict): Dictionary with algorithm parameters as keys and</span>
+<span class="sd">            list of values as keys. All combinations will be evaluated with</span>
+<span class="sd">            desired algorithm. Dict parameters such as ``sim_options`` require</span>
+<span class="sd">            special treatment, see :ref:`this note&lt;grid_search_note&gt;`.</span>
+<span class="sd">        measures(list of string): The performance measures to compute. Allowed</span>
+<span class="sd">            names are function names as defined in the :mod:`accuracy</span>
+<span class="sd">            &lt;surprise.accuracy&gt;` module.  Default is ``[&#39;rmse&#39;, &#39;mae&#39;]``.</span>
+<span class="sd">        cv(cross-validation iterator, int or ``None``): Determines how the</span>
+<span class="sd">            ``data`` parameter will be split (i.e. how trainsets and testsets</span>
+<span class="sd">            will be defined). If an int is passed, :class:`KFold</span>
+<span class="sd">            &lt;surprise.model_selection.split.KFold&gt;` is used with the</span>
+<span class="sd">            appropriate ``n_splits`` parameter. If ``None``, :class:`KFold</span>
+<span class="sd">            &lt;surprise.model_selection.split.KFold&gt;` is used with</span>
+<span class="sd">            ``n_splits=5``.</span>
+<span class="sd">        refit(bool or str): If ``True``, refit the algorithm on the whole</span>
+<span class="sd">            dataset using the set of parameters that gave the best average</span>
+<span class="sd">            performance for the first measure of ``measures``. Other measures</span>
+<span class="sd">            can be used by passing a string (corresponding to the measure</span>
+<span class="sd">            name). Then, you can use the ``test()`` and ``predict()`` methods.</span>
+<span class="sd">            ``refit`` can only be used if the ``data`` parameter given to</span>
+<span class="sd">            ``fit()`` hasn&#39;t been loaded with :meth:`load_from_folds()</span>
+<span class="sd">            &lt;surprise.dataset.Dataset.load_from_folds&gt;`. Default is ``False``.</span>
+<span class="sd">        return_train_measures(bool): Whether to compute performance measures on</span>
+<span class="sd">            the trainsets. If ``True``, the ``cv_results`` attribute will</span>
+<span class="sd">            also contain measures for trainsets. Default is ``False``.</span>
+<span class="sd">        n_jobs(int): The maximum number of parallel training procedures.</span>
+
+<span class="sd">            - If ``-1``, all CPUs are used.</span>
+<span class="sd">            - If ``1`` is given, no parallel computing code is used at all,\</span>
+<span class="sd">                which is useful for debugging.</span>
+<span class="sd">            - For ``n_jobs`` below ``-1``, ``(n_cpus + n_jobs + 1)`` are\</span>
+<span class="sd">                used.  For example, with ``n_jobs = -2`` all CPUs but one are\</span>
+<span class="sd">                used.</span>
+
+<span class="sd">            Default is ``1``.</span>
+<span class="sd">        pre_dispatch(int or string): Controls the number of jobs that get</span>
+<span class="sd">            dispatched during parallel execution. Reducing this number can be</span>
+<span class="sd">            useful to avoid an explosion of memory consumption when more jobs</span>
+<span class="sd">            get dispatched than CPUs can process. This parameter can be:</span>
+
+<span class="sd">            - ``None``, in which case all the jobs are immediately created\</span>
+<span class="sd">                and spawned. Use this for lightweight and fast-running\</span>
+<span class="sd">                jobs, to avoid delays due to on-demand spawning of the\</span>
+<span class="sd">                jobs.</span>
+<span class="sd">            - An int, giving the exact number of total jobs that are\</span>
+<span class="sd">                spawned.</span>
+<span class="sd">            - A string, giving an expression as a function of ``n_jobs``,\</span>
+<span class="sd">                as in ``&#39;2*n_jobs&#39;``.</span>
+
+<span class="sd">            Default is ``&#39;2*n_jobs&#39;``.</span>
+<span class="sd">        joblib_verbose(int): Controls the verbosity of joblib: the higher, the</span>
+<span class="sd">            more messages.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        best_estimator (dict of AlgoBase):</span>
+<span class="sd">            Using an accuracy measure as key, get the algorithm that gave the</span>
+<span class="sd">            best accuracy results for the chosen measure, averaged over all</span>
+<span class="sd">            splits.</span>
+<span class="sd">        best_score (dict of floats):</span>
+<span class="sd">            Using an accuracy measure as key, get the best average score</span>
+<span class="sd">            achieved for that measure.</span>
+<span class="sd">        best_params (dict of dicts):</span>
+<span class="sd">            Using an accuracy measure as key, get the parameters combination</span>
+<span class="sd">            that gave the best accuracy results for the chosen measure (on</span>
+<span class="sd">            average).</span>
+<span class="sd">        best_index  (dict of ints):</span>
+<span class="sd">            Using an accuracy measure as key, get the index that can be used</span>
+<span class="sd">            with ``cv_results`` that achieved the highest accuracy for that</span>
+<span class="sd">            measure (on average).</span>
+<span class="sd">        cv_results (dict of arrays):</span>
+<span class="sd">            A dict that contains accuracy measures over all splits, as well as</span>
+<span class="sd">            train and test time for each parameter combination. Can be imported</span>
+<span class="sd">            into a pandas `DataFrame` (see :ref:`example</span>
+<span class="sd">            &lt;cv_results_example&gt;`).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">algo_class</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">measures</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;rmse&#39;</span><span class="p">,</span> <span class="s1">&#39;mae&#39;</span><span class="p">],</span>
+                 <span class="n">cv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_train_measures</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">pre_dispatch</span><span class="o">=</span><span class="s1">&#39;2*n_jobs&#39;</span><span class="p">,</span> <span class="n">joblib_verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">GridSearchCV</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">algo_class</span><span class="o">=</span><span class="n">algo_class</span><span class="p">,</span> <span class="n">measures</span><span class="o">=</span><span class="n">measures</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">refit</span><span class="o">=</span><span class="n">refit</span><span class="p">,</span>
+            <span class="n">return_train_measures</span><span class="o">=</span><span class="n">return_train_measures</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
+            <span class="n">pre_dispatch</span><span class="o">=</span><span class="n">pre_dispatch</span><span class="p">,</span> <span class="n">joblib_verbose</span><span class="o">=</span><span class="n">joblib_verbose</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_options</span><span class="p">(</span><span class="n">param_grid</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">param_combinations</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span>
+                                   <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span><span class="o">.</span><span class="n">values</span><span class="p">())]</span></div>
+
+
+<div class="viewcode-block" id="RandomizedSearchCV"><a class="viewcode-back" href="../../../model_selection.html#surprise.model_selection.search.RandomizedSearchCV">[docs]</a><span class="k">class</span> <span class="nc">RandomizedSearchCV</span><span class="p">(</span><span class="n">BaseSearchCV</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The :class:`RandomizedSearchCV` class computes accuracy metrics for an</span>
+<span class="sd">    algorithm on various combinations of parameters, over a cross-validation</span>
+<span class="sd">    procedure. As opposed to GridSearchCV, which uses an exhaustive</span>
+<span class="sd">    combinatorial approach, RandomizedSearchCV samples randomly from the</span>
+<span class="sd">    parameter space. This is useful for finding the best set of parameters</span>
+<span class="sd">    for a prediction algorithm, especially using a coarse to fine approach.</span>
+<span class="sd">    It is analogous to `RandomizedSearchCV &lt;http://scikit-learn.org/stable/</span>
+<span class="sd">    modules/generated/sklearn.model_selection.RandomizedSearchCV.html&gt;`_ from</span>
+<span class="sd">    scikit-learn.</span>
+
+<span class="sd">    See an example in the :ref:`User Guide &lt;tuning_algorithm_parameters&gt;`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        algo_class(:obj:`AlgoBase \</span>
+<span class="sd">            &lt;surprise.prediction_algorithms.algo_base.AlgoBase&gt;`): The class</span>
+<span class="sd">            of the algorithm to evaluate.</span>
+<span class="sd">        param_distributions(dict): Dictionary with algorithm parameters as</span>
+<span class="sd">            keys and distributions or lists of parameters to try. Distributions</span>
+<span class="sd">            must provide a rvs method for sampling (such as those from</span>
+<span class="sd">            scipy.stats.distributions). If a list is given, it is sampled</span>
+<span class="sd">            uniformly. Parameters will be sampled n_iter times.</span>
+<span class="sd">        n_iter(int): Number of times parameter settings are sampled. Default is</span>
+<span class="sd">            ``10``.</span>
+<span class="sd">        measures(list of string): The performance measures to compute. Allowed</span>
+<span class="sd">            names are function names as defined in the :mod:`accuracy</span>
+<span class="sd">            &lt;surprise.accuracy&gt;` module.  Default is ``[&#39;rmse&#39;, &#39;mae&#39;]``.</span>
+<span class="sd">        cv(cross-validation iterator, int or ``None``): Determines how the</span>
+<span class="sd">            ``data`` parameter will be split (i.e. how trainsets and testsets</span>
+<span class="sd">            will be defined). If an int is passed, :class:`KFold</span>
+<span class="sd">            &lt;surprise.model_selection.split.KFold&gt;` is used with the</span>
+<span class="sd">            appropriate ``n_splits`` parameter. If ``None``, :class:`KFold</span>
+<span class="sd">            &lt;surprise.model_selection.split.KFold&gt;` is used with</span>
+<span class="sd">            ``n_splits=5``.</span>
+<span class="sd">        refit(bool or str): If ``True``, refit the algorithm on the whole</span>
+<span class="sd">            dataset using the set of parameters that gave the best average</span>
+<span class="sd">            performance for the first measure of ``measures``. Other measures</span>
+<span class="sd">            can be used by passing a string (corresponding to the measure</span>
+<span class="sd">            name). Then, you can use the ``test()`` and ``predict()`` methods.</span>
+<span class="sd">            ``refit`` can only be used if the ``data`` parameter given to</span>
+<span class="sd">            ``fit()`` hasn&#39;t been loaded with :meth:`load_from_folds()</span>
+<span class="sd">            &lt;surprise.dataset.Dataset.load_from_folds&gt;`. Default is ``False``.</span>
+<span class="sd">        return_train_measures(bool): Whether to compute performance measures on</span>
+<span class="sd">            the trainsets. If ``True``, the ``cv_results`` attribute will</span>
+<span class="sd">            also contain measures for trainsets. Default is ``False``.</span>
+<span class="sd">        n_jobs(int): The maximum number of parallel training procedures.</span>
+
+<span class="sd">            - If ``-1``, all CPUs are used.</span>
+<span class="sd">            - If ``1`` is given, no parallel computing code is used at all,\</span>
+<span class="sd">                which is useful for debugging.</span>
+<span class="sd">            - For ``n_jobs`` below ``-1``, ``(n_cpus + n_jobs + 1)`` are\</span>
+<span class="sd">                used.  For example, with ``n_jobs = -2`` all CPUs but one are\</span>
+<span class="sd">                used.</span>
+
+<span class="sd">            Default is ``1``.</span>
+<span class="sd">        pre_dispatch(int or string): Controls the number of jobs that get</span>
+<span class="sd">            dispatched during parallel execution. Reducing this number can be</span>
+<span class="sd">            useful to avoid an explosion of memory consumption when more jobs</span>
+<span class="sd">            get dispatched than CPUs can process. This parameter can be:</span>
+
+<span class="sd">            - ``None``, in which case all the jobs are immediately created\</span>
+<span class="sd">                and spawned. Use this for lightweight and fast-running\</span>
+<span class="sd">                jobs, to avoid delays due to on-demand spawning of the\</span>
+<span class="sd">                jobs.</span>
+<span class="sd">            - An int, giving the exact number of total jobs that are\</span>
+<span class="sd">                spawned.</span>
+<span class="sd">            - A string, giving an expression as a function of ``n_jobs``,\</span>
+<span class="sd">                as in ``&#39;2*n_jobs&#39;``.</span>
+
+<span class="sd">            Default is ``&#39;2*n_jobs&#39;``.</span>
+<span class="sd">        random_state(int, RandomState or None): Pseudo random number</span>
+<span class="sd">            generator seed used for random uniform sampling from lists of</span>
+<span class="sd">            possible values instead of scipy.stats distributions. If int,</span>
+<span class="sd">            ``random_state`` is the seed used by the random number generator.</span>
+<span class="sd">            If ``RandomState`` instance, ``random_state`` is the random number</span>
+<span class="sd">            generator. If ``None``, the random number generator is the</span>
+<span class="sd">            RandomState instance used by ``np.random``.  Default is ``None``.</span>
+<span class="sd">        joblib_verbose(int): Controls the verbosity of joblib: the higher, the</span>
+<span class="sd">            more messages.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        best_estimator (dict of AlgoBase):</span>
+<span class="sd">            Using an accuracy measure as key, get the algorithm that gave the</span>
+<span class="sd">            best accuracy results for the chosen measure, averaged over all</span>
+<span class="sd">            splits.</span>
+<span class="sd">        best_score (dict of floats):</span>
+<span class="sd">            Using an accuracy measure as key, get the best average score</span>
+<span class="sd">            achieved for that measure.</span>
+<span class="sd">        best_params (dict of dicts):</span>
+<span class="sd">            Using an accuracy measure as key, get the parameters combination</span>
+<span class="sd">            that gave the best accuracy results for the chosen measure (on</span>
+<span class="sd">            average).</span>
+<span class="sd">        best_index  (dict of ints):</span>
+<span class="sd">            Using an accuracy measure as key, get the index that can be used</span>
+<span class="sd">            with ``cv_results`` that achieved the highest accuracy for that</span>
+<span class="sd">            measure (on average).</span>
+<span class="sd">        cv_results (dict of arrays):</span>
+<span class="sd">            A dict that contains accuracy measures over all splits, as well as</span>
+<span class="sd">            train and test time for each parameter combination. Can be imported</span>
+<span class="sd">            into a pandas `DataFrame` (see :ref:`example</span>
+<span class="sd">            &lt;cv_results_example&gt;`).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">algo_class</span><span class="p">,</span> <span class="n">param_distributions</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                 <span class="n">measures</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;rmse&#39;</span><span class="p">,</span> <span class="s1">&#39;mae&#39;</span><span class="p">],</span> <span class="n">cv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">return_train_measures</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">pre_dispatch</span><span class="o">=</span><span class="s1">&#39;2*n_jobs&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">joblib_verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">RandomizedSearchCV</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">algo_class</span><span class="o">=</span><span class="n">algo_class</span><span class="p">,</span> <span class="n">measures</span><span class="o">=</span><span class="n">measures</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">refit</span><span class="o">=</span><span class="n">refit</span><span class="p">,</span>
+            <span class="n">return_train_measures</span><span class="o">=</span><span class="n">return_train_measures</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
+            <span class="n">pre_dispatch</span><span class="o">=</span><span class="n">pre_dispatch</span><span class="p">,</span> <span class="n">joblib_verbose</span><span class="o">=</span><span class="n">joblib_verbose</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">=</span> <span class="n">n_iter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">param_distributions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_options</span><span class="p">(</span>
+            <span class="n">param_distributions</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">param_combinations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample_parameters</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">param_distributions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_sample_parameters</span><span class="p">(</span><span class="n">param_distributions</span><span class="p">,</span> <span class="n">n_iter</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Samples ``n_iter`` parameter combinations from</span>
+<span class="sd">        ``param_distributions`` using ``random_state`` as a seed.</span>
+
+<span class="sd">        Non-deterministic iterable over random candidate combinations for</span>
+<span class="sd">        hyper-parameter search. If all parameters are presented as a list,</span>
+<span class="sd">        sampling without replacement is performed. If at least one parameter</span>
+<span class="sd">        is given as a distribution, sampling with replacement is used.</span>
+<span class="sd">        It is highly recommended to use continuous distributions for continuous</span>
+<span class="sd">        parameters.</span>
+
+<span class="sd">        Note that before SciPy 0.16, the ``scipy.stats.distributions`` do not</span>
+<span class="sd">        accept a custom RNG instance and always use the singleton RNG from</span>
+<span class="sd">        ``numpy.random``. Hence setting ``random_state`` will not guarantee a</span>
+<span class="sd">        deterministic iteration whenever ``scipy.stats`` distributions are used</span>
+<span class="sd">        to define the parameter search space. Deterministic behavior is however</span>
+<span class="sd">        guaranteed from SciPy 0.16 onwards.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            param_distributions(dict): Dictionary where the keys are</span>
+<span class="sd">                parameters and values are distributions from which a parameter</span>
+<span class="sd">                is to be sampled. Distributions either have to provide a</span>
+<span class="sd">                ``rvs`` function to sample from them, or can be given as a list</span>
+<span class="sd">                 of values, where a uniform distribution is assumed.</span>
+<span class="sd">            n_iter(int): Number of parameter settings produced.</span>
+<span class="sd">                Default is ``10``.</span>
+<span class="sd">            random_state(int, RandomState instance or None):</span>
+<span class="sd">                Pseudo random number generator seed used for random uniform</span>
+<span class="sd">                sampling from lists of possible values instead of scipy.stats</span>
+<span class="sd">                distributions. If ``None``, the random number generator is the</span>
+<span class="sd">                random state instance used by np.random.  Default is ``None``.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            combos(list): List of parameter dictionaries with sampled values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># check if all distributions are given as lists</span>
+        <span class="c1"># if so, sample without replacement</span>
+        <span class="n">all_lists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">([</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;rvs&#39;</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">param_distributions</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+        <span class="n">rnd</span> <span class="o">=</span> <span class="n">get_rng</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="c1"># sort for reproducibility</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">param_distributions</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">all_lists</span><span class="p">:</span>
+            <span class="c1"># create exhaustive combinations</span>
+            <span class="n">param_grid</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">param_distributions</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span>
+                          <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">param_distributions</span><span class="o">.</span><span class="n">values</span><span class="p">())]</span>
+            <span class="n">combos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">param_grid</span><span class="p">,</span> <span class="n">n_iter</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">combos</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">moves</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="n">n_iter</span><span class="p">):</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;rvs&#39;</span><span class="p">):</span>
+                        <span class="n">params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">rnd</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">rnd</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">))]</span>
+                <span class="n">combos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">combos</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2015, Nicolas Hug
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

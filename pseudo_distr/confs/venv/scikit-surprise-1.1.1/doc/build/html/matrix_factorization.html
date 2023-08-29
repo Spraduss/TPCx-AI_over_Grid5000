@@ -1,0 +1,637 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Matrix Factorization-based algorithms &mdash; Surprise 1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Slope One" href="slope_one.html" />
+    <link rel="prev" title="k-NN inspired algorithms" href="knn_inspired.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Surprise
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prediction_algorithms.html">Using prediction algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building_custom_algo.html">How to build your own prediction algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notation_standards.html">Notation standards, References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQ.html">FAQ</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="prediction_algorithms_package.html">prediction_algorithms package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="algobase.html">The algorithm base class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="predictions_module.html">The predictions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic_algorithms.html">Basic algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="knn_inspired.html">k-NN inspired algorithms</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Matrix Factorization-based algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="slope_one.html">Slope One</a></li>
+<li class="toctree-l2"><a class="reference internal" href="co_clustering.html">Co-clustering</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="model_selection.html">The model_selection package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="similarities.html">similarities module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accuracy.html">accuracy module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">dataset module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trainset.html">Trainset class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reader.html">Reader class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dump.html">dump module</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Surprise</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="prediction_algorithms_package.html">prediction_algorithms package</a> &raquo;</li>
+        
+      <li>Matrix Factorization-based algorithms</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/matrix_factorization.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="matrix-factorization-based-algorithms">
+<span id="pred-package-matrix-factorization"></span><h1>Matrix Factorization-based algorithms<a class="headerlink" href="#matrix-factorization-based-algorithms" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="surprise.prediction_algorithms.matrix_factorization.SVD">
+<em class="property">class </em><code class="sig-prename descclassname">surprise.prediction_algorithms.matrix_factorization.</code><code class="sig-name descname">SVD</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.SVD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase" title="surprise.prediction_algorithms.algo_base.AlgoBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">surprise.prediction_algorithms.algo_base.AlgoBase</span></code></a></p>
+<p>The famous <em>SVD</em> algorithm, as popularized by <a class="reference external" href="http://sifter.org/~simon/journal/20061211.html">Simon Funk</a> during the Netflix
+Prize. When baselines are not used, this is equivalent to Probabilistic
+Matrix Factorization <a class="bibtex reference internal" href="notation_standards.html#salakhutdinov2008a" id="id1">[SM08]</a> (see <a class="reference internal" href="#unbiased-note"><span class="std std-ref">note</span></a> below).</p>
+<p>The prediction <span class="math notranslate nohighlight">\(\hat{r}_{ui}\)</span> is set as:</p>
+<div class="math notranslate nohighlight">
+\[\hat{r}_{ui} = \mu + b_u + b_i + q_i^Tp_u\]</div>
+<p>If user <span class="math notranslate nohighlight">\(u\)</span> is unknown, then the bias <span class="math notranslate nohighlight">\(b_u\)</span> and the factors
+<span class="math notranslate nohighlight">\(p_u\)</span> are assumed to be zero. The same applies for item <span class="math notranslate nohighlight">\(i\)</span>
+with <span class="math notranslate nohighlight">\(b_i\)</span> and <span class="math notranslate nohighlight">\(q_i\)</span>.</p>
+<p>For details, see equation (5) from <a class="bibtex reference internal" href="notation_standards.html#koren-2009" id="id2">[KBV09]</a>. See also
+<a class="bibtex reference internal" href="notation_standards.html#ricci-2010" id="id3">[RRSK10]</a>, section 5.3.1.</p>
+<p>To estimate all the unknown, we minimize the following regularized squared
+error:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{r_{ui} \in R_{train}} \left(r_{ui} - \hat{r}_{ui} \right)^2 +
+\lambda\left(b_i^2 + b_u^2 + ||q_i||^2 + ||p_u||^2\right)\]</div>
+<p>The minimization is performed by a very straightforward stochastic gradient
+descent:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}b_u &amp;\leftarrow b_u &amp;+ \gamma (e_{ui} - \lambda b_u)\\
+b_i &amp;\leftarrow b_i &amp;+ \gamma (e_{ui} - \lambda b_i)\\
+p_u &amp;\leftarrow p_u &amp;+ \gamma (e_{ui} \cdot q_i - \lambda p_u)\\
+q_i &amp;\leftarrow q_i &amp;+ \gamma (e_{ui} \cdot p_u - \lambda q_i)\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(e_{ui} = r_{ui} - \hat{r}_{ui}\)</span>. These steps are performed
+over all the ratings of the trainset and repeated <code class="docutils literal notranslate"><span class="pre">n_epochs</span></code> times.
+Baselines are initialized to <code class="docutils literal notranslate"><span class="pre">0</span></code>. User and item factors are randomly
+initialized according to a normal distribution, which can be tuned using
+the <code class="docutils literal notranslate"><span class="pre">init_mean</span></code> and <code class="docutils literal notranslate"><span class="pre">init_std_dev</span></code> parameters.</p>
+<p>You also have control over the learning rate <span class="math notranslate nohighlight">\(\gamma\)</span> and the
+regularization term <span class="math notranslate nohighlight">\(\lambda\)</span>. Both can be different for each
+kind of parameter (see below). By default, learning rates are set to
+<code class="docutils literal notranslate"><span class="pre">0.005</span></code> and regularization terms are set to <code class="docutils literal notranslate"><span class="pre">0.02</span></code>.</p>
+<div class="admonition note" id="unbiased-note">
+<p class="admonition-title">Note</p>
+<p>You can choose to use an unbiased version of this algorithm, simply
+predicting:</p>
+<div class="math notranslate nohighlight">
+\[\hat{r}_{ui} = q_i^Tp_u\]</div>
+<p>This is equivalent to Probabilistic Matrix Factorization
+(<a class="bibtex reference internal" href="notation_standards.html#salakhutdinov2008a" id="id4">[SM08]</a>, section 2) and can be achieved by setting
+the <code class="docutils literal notranslate"><span class="pre">biased</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_factors</strong> – The number of factors. Default is <code class="docutils literal notranslate"><span class="pre">100</span></code>.</p></li>
+<li><p><strong>n_epochs</strong> – The number of iteration of the SGD procedure. Default is
+<code class="docutils literal notranslate"><span class="pre">20</span></code>.</p></li>
+<li><p><strong>biased</strong> (<em>bool</em>) – Whether to use baselines (or biases). See <a class="reference internal" href="#unbiased-note"><span class="std std-ref">note</span></a> above.  Default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>init_mean</strong> – The mean of the normal distribution for factor vectors
+initialization. Default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><strong>init_std_dev</strong> – The standard deviation of the normal distribution for
+factor vectors initialization. Default is <code class="docutils literal notranslate"><span class="pre">0.1</span></code>.</p></li>
+<li><p><strong>lr_all</strong> – The learning rate for all parameters. Default is <code class="docutils literal notranslate"><span class="pre">0.005</span></code>.</p></li>
+<li><p><strong>reg_all</strong> – The regularization term for all parameters. Default is
+<code class="docutils literal notranslate"><span class="pre">0.02</span></code>.</p></li>
+<li><p><strong>lr_bu</strong> – The learning rate for <span class="math notranslate nohighlight">\(b_u\)</span>. Takes precedence over
+<code class="docutils literal notranslate"><span class="pre">lr_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>lr_bi</strong> – The learning rate for <span class="math notranslate nohighlight">\(b_i\)</span>. Takes precedence over
+<code class="docutils literal notranslate"><span class="pre">lr_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>lr_pu</strong> – The learning rate for <span class="math notranslate nohighlight">\(p_u\)</span>. Takes precedence over
+<code class="docutils literal notranslate"><span class="pre">lr_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>lr_qi</strong> – The learning rate for <span class="math notranslate nohighlight">\(q_i\)</span>. Takes precedence over
+<code class="docutils literal notranslate"><span class="pre">lr_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>reg_bu</strong> – The regularization term for <span class="math notranslate nohighlight">\(b_u\)</span>. Takes precedence
+over <code class="docutils literal notranslate"><span class="pre">reg_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>reg_bi</strong> – The regularization term for <span class="math notranslate nohighlight">\(b_i\)</span>. Takes precedence
+over <code class="docutils literal notranslate"><span class="pre">reg_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>reg_pu</strong> – The regularization term for <span class="math notranslate nohighlight">\(p_u\)</span>. Takes precedence
+over <code class="docutils literal notranslate"><span class="pre">reg_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>reg_qi</strong> – The regularization term for <span class="math notranslate nohighlight">\(q_i\)</span>. Takes precedence
+over <code class="docutils literal notranslate"><span class="pre">reg_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>random_state</strong> (int, RandomState instance from numpy, or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Determines the RNG that will be used for initialization. If
+int, <code class="docutils literal notranslate"><span class="pre">random_state</span></code> will be used as a seed for a new RNG. This is
+useful to get the same initialization over multiple calls to
+<code class="docutils literal notranslate"><span class="pre">fit()</span></code>.  If RandomState instance, this same instance is used as
+RNG. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the current RNG from numpy is used.  Default is
+<code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>verbose</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, prints the current epoch. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="surprise.prediction_algorithms.matrix_factorization.SVD.pu">
+<code class="sig-name descname">pu</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.SVD.pu" title="Permalink to this definition">¶</a></dt>
+<dd><p>The user factors (only
+exists if <code class="docutils literal notranslate"><span class="pre">fit()</span></code> has been called)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array of size (n_users, n_factors)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surprise.prediction_algorithms.matrix_factorization.SVD.qi">
+<code class="sig-name descname">qi</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.SVD.qi" title="Permalink to this definition">¶</a></dt>
+<dd><p>The item factors (only
+exists if <code class="docutils literal notranslate"><span class="pre">fit()</span></code> has been called)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array of size (n_items, n_factors)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surprise.prediction_algorithms.matrix_factorization.SVD.bu">
+<code class="sig-name descname">bu</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.SVD.bu" title="Permalink to this definition">¶</a></dt>
+<dd><p>The user biases (only
+exists if <code class="docutils literal notranslate"><span class="pre">fit()</span></code> has been called)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array of size (n_users)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surprise.prediction_algorithms.matrix_factorization.SVD.bi">
+<code class="sig-name descname">bi</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.SVD.bi" title="Permalink to this definition">¶</a></dt>
+<dd><p>The item biases (only
+exists if <code class="docutils literal notranslate"><span class="pre">fit()</span></code> has been called)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array of size (n_items)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surprise.prediction_algorithms.matrix_factorization.SVDpp">
+<em class="property">class </em><code class="sig-prename descclassname">surprise.prediction_algorithms.matrix_factorization.</code><code class="sig-name descname">SVDpp</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.SVDpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase" title="surprise.prediction_algorithms.algo_base.AlgoBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">surprise.prediction_algorithms.algo_base.AlgoBase</span></code></a></p>
+<p>The <em>SVD++</em> algorithm, an extension of <a class="reference internal" href="#surprise.prediction_algorithms.matrix_factorization.SVD" title="surprise.prediction_algorithms.matrix_factorization.SVD"><code class="xref py py-class docutils literal notranslate"><span class="pre">SVD</span></code></a> taking into account
+implicit ratings.</p>
+<p>The prediction <span class="math notranslate nohighlight">\(\hat{r}_{ui}\)</span> is set as:</p>
+<div class="math notranslate nohighlight">
+\[\hat{r}_{ui} = \mu + b_u + b_i + q_i^T\left(p_u +
+|I_u|^{-\frac{1}{2}} \sum_{j \in I_u}y_j\right)\]</div>
+<p>Where the <span class="math notranslate nohighlight">\(y_j\)</span> terms are a new set of item factors that capture
+implicit ratings. Here, an implicit rating describes the fact that a user
+<span class="math notranslate nohighlight">\(u\)</span> rated an item <span class="math notranslate nohighlight">\(j\)</span>, regardless of the rating value.</p>
+<p>If user <span class="math notranslate nohighlight">\(u\)</span> is unknown, then the bias <span class="math notranslate nohighlight">\(b_u\)</span> and the factors
+<span class="math notranslate nohighlight">\(p_u\)</span> are assumed to be zero. The same applies for item <span class="math notranslate nohighlight">\(i\)</span>
+with <span class="math notranslate nohighlight">\(b_i\)</span>, <span class="math notranslate nohighlight">\(q_i\)</span> and <span class="math notranslate nohighlight">\(y_i\)</span>.</p>
+<p>For details, see section 4 of <a class="bibtex reference internal" href="notation_standards.html#koren-2008-fmn" id="id5">[Kor08]</a>. See also
+<a class="bibtex reference internal" href="notation_standards.html#ricci-2010" id="id6">[RRSK10]</a>, section 5.3.1.</p>
+<p>Just as for <a class="reference internal" href="#surprise.prediction_algorithms.matrix_factorization.SVD" title="surprise.prediction_algorithms.matrix_factorization.SVD"><code class="xref py py-class docutils literal notranslate"><span class="pre">SVD</span></code></a>, the parameters are learned using a SGD on the
+regularized squared error objective.</p>
+<p>Baselines are initialized to <code class="docutils literal notranslate"><span class="pre">0</span></code>. User and item factors are randomly
+initialized according to a normal distribution, which can be tuned using
+the <code class="docutils literal notranslate"><span class="pre">init_mean</span></code> and <code class="docutils literal notranslate"><span class="pre">init_std_dev</span></code> parameters.</p>
+<p>You have control over the learning rate <span class="math notranslate nohighlight">\(\gamma\)</span> and the
+regularization term <span class="math notranslate nohighlight">\(\lambda\)</span>. Both can be different for each
+kind of parameter (see below). By default, learning rates are set to
+<code class="docutils literal notranslate"><span class="pre">0.005</span></code> and regularization terms are set to <code class="docutils literal notranslate"><span class="pre">0.02</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_factors</strong> – The number of factors. Default is <code class="docutils literal notranslate"><span class="pre">20</span></code>.</p></li>
+<li><p><strong>n_epochs</strong> – The number of iteration of the SGD procedure. Default is
+<code class="docutils literal notranslate"><span class="pre">20</span></code>.</p></li>
+<li><p><strong>init_mean</strong> – The mean of the normal distribution for factor vectors
+initialization. Default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><strong>init_std_dev</strong> – The standard deviation of the normal distribution for
+factor vectors initialization. Default is <code class="docutils literal notranslate"><span class="pre">0.1</span></code>.</p></li>
+<li><p><strong>lr_all</strong> – The learning rate for all parameters. Default is <code class="docutils literal notranslate"><span class="pre">0.007</span></code>.</p></li>
+<li><p><strong>reg_all</strong> – The regularization term for all parameters. Default is
+<code class="docutils literal notranslate"><span class="pre">0.02</span></code>.</p></li>
+<li><p><strong>lr_bu</strong> – The learning rate for <span class="math notranslate nohighlight">\(b_u\)</span>. Takes precedence over
+<code class="docutils literal notranslate"><span class="pre">lr_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>lr_bi</strong> – The learning rate for <span class="math notranslate nohighlight">\(b_i\)</span>. Takes precedence over
+<code class="docutils literal notranslate"><span class="pre">lr_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>lr_pu</strong> – The learning rate for <span class="math notranslate nohighlight">\(p_u\)</span>. Takes precedence over
+<code class="docutils literal notranslate"><span class="pre">lr_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>lr_qi</strong> – The learning rate for <span class="math notranslate nohighlight">\(q_i\)</span>. Takes precedence over
+<code class="docutils literal notranslate"><span class="pre">lr_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>lr_yj</strong> – The learning rate for <span class="math notranslate nohighlight">\(y_j\)</span>. Takes precedence over
+<code class="docutils literal notranslate"><span class="pre">lr_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>reg_bu</strong> – The regularization term for <span class="math notranslate nohighlight">\(b_u\)</span>. Takes precedence
+over <code class="docutils literal notranslate"><span class="pre">reg_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>reg_bi</strong> – The regularization term for <span class="math notranslate nohighlight">\(b_i\)</span>. Takes precedence
+over <code class="docutils literal notranslate"><span class="pre">reg_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>reg_pu</strong> – The regularization term for <span class="math notranslate nohighlight">\(p_u\)</span>. Takes precedence
+over <code class="docutils literal notranslate"><span class="pre">reg_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>reg_qi</strong> – The regularization term for <span class="math notranslate nohighlight">\(q_i\)</span>. Takes precedence
+over <code class="docutils literal notranslate"><span class="pre">reg_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>reg_yj</strong> – The regularization term for <span class="math notranslate nohighlight">\(y_j\)</span>. Takes precedence
+over <code class="docutils literal notranslate"><span class="pre">reg_all</span></code> if set. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>random_state</strong> (int, RandomState instance from numpy, or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Determines the RNG that will be used for initialization. If
+int, <code class="docutils literal notranslate"><span class="pre">random_state</span></code> will be used as a seed for a new RNG. This is
+useful to get the same initialization over multiple calls to
+<code class="docutils literal notranslate"><span class="pre">fit()</span></code>.  If RandomState instance, this same instance is used as
+RNG. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the current RNG from numpy is used.  Default is
+<code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>verbose</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, prints the current epoch. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="surprise.prediction_algorithms.matrix_factorization.SVDpp.pu">
+<code class="sig-name descname">pu</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.SVDpp.pu" title="Permalink to this definition">¶</a></dt>
+<dd><p>The user factors (only
+exists if <code class="docutils literal notranslate"><span class="pre">fit()</span></code> has been called)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array of size (n_users, n_factors)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surprise.prediction_algorithms.matrix_factorization.SVDpp.qi">
+<code class="sig-name descname">qi</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.SVDpp.qi" title="Permalink to this definition">¶</a></dt>
+<dd><p>The item factors (only
+exists if <code class="docutils literal notranslate"><span class="pre">fit()</span></code> has been called)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array of size (n_items, n_factors)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surprise.prediction_algorithms.matrix_factorization.SVDpp.yj">
+<code class="sig-name descname">yj</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.SVDpp.yj" title="Permalink to this definition">¶</a></dt>
+<dd><p>The (implicit) item
+factors (only exists if <code class="docutils literal notranslate"><span class="pre">fit()</span></code> has been called)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array of size (n_items, n_factors)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surprise.prediction_algorithms.matrix_factorization.SVDpp.bu">
+<code class="sig-name descname">bu</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.SVDpp.bu" title="Permalink to this definition">¶</a></dt>
+<dd><p>The user biases (only
+exists if <code class="docutils literal notranslate"><span class="pre">fit()</span></code> has been called)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array of size (n_users)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surprise.prediction_algorithms.matrix_factorization.SVDpp.bi">
+<code class="sig-name descname">bi</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.SVDpp.bi" title="Permalink to this definition">¶</a></dt>
+<dd><p>The item biases (only
+exists if <code class="docutils literal notranslate"><span class="pre">fit()</span></code> has been called)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array of size (n_items)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surprise.prediction_algorithms.matrix_factorization.NMF">
+<em class="property">class </em><code class="sig-prename descclassname">surprise.prediction_algorithms.matrix_factorization.</code><code class="sig-name descname">NMF</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.NMF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase" title="surprise.prediction_algorithms.algo_base.AlgoBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">surprise.prediction_algorithms.algo_base.AlgoBase</span></code></a></p>
+<p>A collaborative filtering algorithm based on Non-negative Matrix
+Factorization.</p>
+<p>This algorithm is very similar to <a class="reference internal" href="#surprise.prediction_algorithms.matrix_factorization.SVD" title="surprise.prediction_algorithms.matrix_factorization.SVD"><code class="xref py py-class docutils literal notranslate"><span class="pre">SVD</span></code></a>. The prediction
+<span class="math notranslate nohighlight">\(\hat{r}_{ui}\)</span> is set as:</p>
+<div class="math notranslate nohighlight">
+\[\hat{r}_{ui} = q_i^Tp_u,\]</div>
+<p>where user and item factors are kept <strong>positive</strong>. Our implementation
+follows that suggested in <a class="bibtex reference internal" href="notation_standards.html#nmf-2014" id="id7">[LZXZ14]</a>, which is equivalent to
+<a class="bibtex reference internal" href="notation_standards.html#zhang96" id="id8">[ZWFM96]</a> in its non-regularized form. Both are direct applications
+of NMF for dense matrices <a class="bibtex reference internal" href="notation_standards.html#nmf-algo" id="id9">[LS01]</a>.</p>
+<p>The optimization procedure is a (regularized) stochastic gradient descent
+with a specific choice of step size that ensures non-negativity of factors,
+provided that their initial values are also positive.</p>
+<p>At each step of the SGD procedure, the factors <span class="math notranslate nohighlight">\(f\)</span> or user <span class="math notranslate nohighlight">\(u\)</span>
+and item <span class="math notranslate nohighlight">\(i\)</span> are updated as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}p_{uf} &amp;\leftarrow p_{uf} &amp;\cdot \frac{\sum_{i \in I_u} q_{if}
+\cdot r_{ui}}{\sum_{i \in I_u} q_{if} \cdot \hat{r_{ui}} +
+\lambda_u |I_u| p_{uf}}\\
+q_{if} &amp;\leftarrow q_{if} &amp;\cdot \frac{\sum_{u \in U_i} p_{uf}
+\cdot r_{ui}}{\sum_{u \in U_i} p_{uf} \cdot \hat{r_{ui}} +
+\lambda_i |U_i| q_{if}}\\\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda_u\)</span> and <span class="math notranslate nohighlight">\(\lambda_i\)</span> are regularization
+parameters.</p>
+<p>This algorithm is highly dependent on initial values. User and item factors
+are uniformly initialized between <code class="docutils literal notranslate"><span class="pre">init_low</span></code> and <code class="docutils literal notranslate"><span class="pre">init_high</span></code>. Change
+them at your own risks!</p>
+<p>A biased version is available by setting the <code class="docutils literal notranslate"><span class="pre">biased</span></code> parameter to
+<code class="docutils literal notranslate"><span class="pre">True</span></code>. In this case, the prediction is set as</p>
+<div class="math notranslate nohighlight">
+\[\hat{r}_{ui} = \mu + b_u + b_i + q_i^Tp_u,\]</div>
+<p>still ensuring positive factors. Baselines are optimized in the same way as
+in the <a class="reference internal" href="#surprise.prediction_algorithms.matrix_factorization.SVD" title="surprise.prediction_algorithms.matrix_factorization.SVD"><code class="xref py py-class docutils literal notranslate"><span class="pre">SVD</span></code></a> algorithm. While yielding better accuracy, the biased
+version seems highly prone to overfitting so you may want to reduce the
+number of factors (or increase regularization).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_factors</strong> – The number of factors. Default is <code class="docutils literal notranslate"><span class="pre">15</span></code>.</p></li>
+<li><p><strong>n_epochs</strong> – The number of iteration of the SGD procedure. Default is
+<code class="docutils literal notranslate"><span class="pre">50</span></code>.</p></li>
+<li><p><strong>biased</strong> (<em>bool</em>) – Whether to use baselines (or biases). Default is
+<code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>reg_pu</strong> – The regularization term for users <span class="math notranslate nohighlight">\(\lambda_u\)</span>. Default is
+<code class="docutils literal notranslate"><span class="pre">0.06</span></code>.</p></li>
+<li><p><strong>reg_qi</strong> – The regularization term for items <span class="math notranslate nohighlight">\(\lambda_i\)</span>. Default is
+<code class="docutils literal notranslate"><span class="pre">0.06</span></code>.</p></li>
+<li><p><strong>reg_bu</strong> – The regularization term for <span class="math notranslate nohighlight">\(b_u\)</span>. Only relevant for
+biased version. Default is <code class="docutils literal notranslate"><span class="pre">0.02</span></code>.</p></li>
+<li><p><strong>reg_bi</strong> – The regularization term for <span class="math notranslate nohighlight">\(b_i\)</span>. Only relevant for
+biased version. Default is <code class="docutils literal notranslate"><span class="pre">0.02</span></code>.</p></li>
+<li><p><strong>lr_bu</strong> – The learning rate for <span class="math notranslate nohighlight">\(b_u\)</span>. Only relevant for biased
+version. Default is <code class="docutils literal notranslate"><span class="pre">0.005</span></code>.</p></li>
+<li><p><strong>lr_bi</strong> – The learning rate for <span class="math notranslate nohighlight">\(b_i\)</span>. Only relevant for biased
+version. Default is <code class="docutils literal notranslate"><span class="pre">0.005</span></code>.</p></li>
+<li><p><strong>init_low</strong> – Lower bound for random initialization of factors. Must be
+greater than <code class="docutils literal notranslate"><span class="pre">0</span></code> to ensure non-negative factors. Default is
+<code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><strong>init_high</strong> – Higher bound for random initialization of factors. Default
+is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+<li><p><strong>random_state</strong> (int, RandomState instance from numpy, or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Determines the RNG that will be used for initialization. If
+int, <code class="docutils literal notranslate"><span class="pre">random_state</span></code> will be used as a seed for a new RNG. This is
+useful to get the same initialization over multiple calls to
+<code class="docutils literal notranslate"><span class="pre">fit()</span></code>.  If RandomState instance, this same instance is used as
+RNG. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the current RNG from numpy is used.  Default is
+<code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>verbose</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, prints the current epoch. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="surprise.prediction_algorithms.matrix_factorization.NMF.pu">
+<code class="sig-name descname">pu</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.NMF.pu" title="Permalink to this definition">¶</a></dt>
+<dd><p>The user factors (only
+exists if <code class="docutils literal notranslate"><span class="pre">fit()</span></code> has been called)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array of size (n_users, n_factors)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surprise.prediction_algorithms.matrix_factorization.NMF.qi">
+<code class="sig-name descname">qi</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.NMF.qi" title="Permalink to this definition">¶</a></dt>
+<dd><p>The item factors (only
+exists if <code class="docutils literal notranslate"><span class="pre">fit()</span></code> has been called)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array of size (n_items, n_factors)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surprise.prediction_algorithms.matrix_factorization.NMF.bu">
+<code class="sig-name descname">bu</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.NMF.bu" title="Permalink to this definition">¶</a></dt>
+<dd><p>The user biases (only
+exists if <code class="docutils literal notranslate"><span class="pre">fit()</span></code> has been called)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array of size (n_users)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surprise.prediction_algorithms.matrix_factorization.NMF.bi">
+<code class="sig-name descname">bi</code><a class="headerlink" href="#surprise.prediction_algorithms.matrix_factorization.NMF.bi" title="Permalink to this definition">¶</a></dt>
+<dd><p>The item biases (only
+exists if <code class="docutils literal notranslate"><span class="pre">fit()</span></code> has been called)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array of size (n_items)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="slope_one.html" class="btn btn-neutral float-right" title="Slope One" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="knn_inspired.html" class="btn btn-neutral float-left" title="k-NN inspired algorithms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2015, Nicolas Hug
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

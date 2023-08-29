@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Co-clustering &mdash; Surprise 1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The model_selection package" href="model_selection.html" />
+    <link rel="prev" title="Slope One" href="slope_one.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Surprise
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prediction_algorithms.html">Using prediction algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building_custom_algo.html">How to build your own prediction algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notation_standards.html">Notation standards, References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQ.html">FAQ</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="prediction_algorithms_package.html">prediction_algorithms package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="algobase.html">The algorithm base class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="predictions_module.html">The predictions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic_algorithms.html">Basic algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="knn_inspired.html">k-NN inspired algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matrix_factorization.html">Matrix Factorization-based algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="slope_one.html">Slope One</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Co-clustering</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="model_selection.html">The model_selection package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="similarities.html">similarities module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accuracy.html">accuracy module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">dataset module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trainset.html">Trainset class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reader.html">Reader class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dump.html">dump module</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Surprise</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="prediction_algorithms_package.html">prediction_algorithms package</a> &raquo;</li>
+        
+      <li>Co-clustering</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/co_clustering.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="co-clustering">
+<span id="pred-package-co-clustering"></span><h1>Co-clustering<a class="headerlink" href="#co-clustering" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="surprise.prediction_algorithms.co_clustering.CoClustering">
+<em class="property">class </em><code class="sig-prename descclassname">surprise.prediction_algorithms.co_clustering.</code><code class="sig-name descname">CoClustering</code><a class="headerlink" href="#surprise.prediction_algorithms.co_clustering.CoClustering" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase" title="surprise.prediction_algorithms.algo_base.AlgoBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">surprise.prediction_algorithms.algo_base.AlgoBase</span></code></a></p>
+<p>A collaborative filtering algorithm based on co-clustering.</p>
+<p>This is a straightforward implementation of <a class="bibtex reference internal" href="notation_standards.html#george-2005" id="id1">[GM05]</a>.</p>
+<p>Basically, users and items are assigned some clusters <span class="math notranslate nohighlight">\(C_u\)</span>,
+<span class="math notranslate nohighlight">\(C_i\)</span>, and some co-clusters <span class="math notranslate nohighlight">\(C_{ui}\)</span>.</p>
+<p>The prediction <span class="math notranslate nohighlight">\(\hat{r}_{ui}\)</span> is set as:</p>
+<div class="math notranslate nohighlight">
+\[\hat{r}_{ui} = \overline{C_{ui}} + (\mu_u - \overline{C_u}) + (\mu_i
+- \overline{C_i}),\]</div>
+<p>where <span class="math notranslate nohighlight">\(\overline{C_{ui}}\)</span> is the average rating of co-cluster
+<span class="math notranslate nohighlight">\(C_{ui}\)</span>, <span class="math notranslate nohighlight">\(\overline{C_u}\)</span> is the average rating of
+<span class="math notranslate nohighlight">\(u\)</span>’s cluster, and <span class="math notranslate nohighlight">\(\overline{C_i}\)</span> is the average rating of
+<span class="math notranslate nohighlight">\(i\)</span>’s cluster. If the user is unknown, the prediction is
+<span class="math notranslate nohighlight">\(\hat{r}_{ui} = \mu_i\)</span>. If the item is unknown, the prediction is
+<span class="math notranslate nohighlight">\(\hat{r}_{ui} = \mu_u\)</span>. If both the user and the item are unknown,
+the prediction is <span class="math notranslate nohighlight">\(\hat{r}_{ui} = \mu\)</span>.</p>
+<p>Clusters are assigned using a straightforward optimization method, much
+like k-means.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_cltr_u</strong> (<em>int</em>) – Number of user clusters. Default is <code class="docutils literal notranslate"><span class="pre">3</span></code>.</p></li>
+<li><p><strong>n_cltr_i</strong> (<em>int</em>) – Number of item clusters. Default is <code class="docutils literal notranslate"><span class="pre">3</span></code>.</p></li>
+<li><p><strong>n_epochs</strong> (<em>int</em>) – Number of iteration of the optimization loop. Default is
+<code class="docutils literal notranslate"><span class="pre">20</span></code>.</p></li>
+<li><p><strong>random_state</strong> (int, RandomState instance from numpy, or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Determines the RNG that will be used for initialization. If
+int, <code class="docutils literal notranslate"><span class="pre">random_state</span></code> will be used as a seed for a new RNG. This is
+useful to get the same initialization over multiple calls to
+<code class="docutils literal notranslate"><span class="pre">fit()</span></code>.  If RandomState instance, this same instance is used as
+RNG. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the current RNG from numpy is used.  Default is
+<code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – If True, the current epoch will be printed. Default is
+<code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="model_selection.html" class="btn btn-neutral float-right" title="The model_selection package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="slope_one.html" class="btn btn-neutral float-left" title="Slope One" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2015, Nicolas Hug
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

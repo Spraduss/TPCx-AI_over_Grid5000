@@ -1,0 +1,492 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>surprise.dataset &mdash; Surprise 1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> Surprise
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../prediction_algorithms.html">Using prediction algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../building_custom_algo.html">How to build your own prediction algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notation_standards.html">Notation standards, References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../FAQ.html">FAQ</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../prediction_algorithms_package.html">prediction_algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_selection.html">The model_selection package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../similarities.html">similarities module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../accuracy.html">accuracy module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dataset.html">dataset module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trainset.html">Trainset class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reader.html">Reader class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dump.html">dump module</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Surprise</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>surprise.dataset</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for surprise.dataset</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The :mod:`dataset &lt;surprise.dataset&gt;` module defines the :class:`Dataset` class</span>
+<span class="sd">and other subclasses which are used for managing datasets.</span>
+
+<span class="sd">Users may use both *built-in* and user-defined datasets (see the</span>
+<span class="sd">:ref:`getting_started` page for examples). Right now, three built-in datasets</span>
+<span class="sd">are available:</span>
+
+<span class="sd">* The `movielens-100k &lt;http://grouplens.org/datasets/movielens/&gt;`_ dataset.</span>
+<span class="sd">* The `movielens-1m &lt;http://grouplens.org/datasets/movielens/&gt;`_ dataset.</span>
+<span class="sd">* The `Jester &lt;http://eigentaste.berkeley.edu/dataset/&gt;`_ dataset 2.</span>
+
+<span class="sd">Built-in datasets can all be loaded (or downloaded if you haven&#39;t already)</span>
+<span class="sd">using the :meth:`Dataset.load_builtin` method.</span>
+<span class="sd">Summary:</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">    :nosignatures:</span>
+
+<span class="sd">    Dataset.load_builtin</span>
+<span class="sd">    Dataset.load_from_file</span>
+<span class="sd">    Dataset.load_from_folds</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span>
+                        <span class="n">unicode_literals</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="kn">from</span> <span class="nn">six.moves</span> <span class="kn">import</span> <span class="nb">input</span>
+
+<span class="kn">from</span> <span class="nn">.reader</span> <span class="kn">import</span> <span class="n">Reader</span>
+<span class="kn">from</span> <span class="nn">.builtin_datasets</span> <span class="kn">import</span> <span class="n">download_builtin_dataset</span>
+<span class="kn">from</span> <span class="nn">.builtin_datasets</span> <span class="kn">import</span> <span class="n">BUILTIN_DATASETS</span>
+<span class="kn">from</span> <span class="nn">.trainset</span> <span class="kn">import</span> <span class="n">Trainset</span>
+
+
+<div class="viewcode-block" id="Dataset"><a class="viewcode-back" href="../../dataset.html#surprise.dataset.Dataset">[docs]</a><span class="k">class</span> <span class="nc">Dataset</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Base class for loading datasets.</span>
+
+<span class="sd">    Note that you should never instantiate the :class:`Dataset` class directly</span>
+<span class="sd">    (same goes for its derived classes), but instead use one of the three</span>
+<span class="sd">    available methods for loading datasets.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reader</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="n">reader</span>
+
+<div class="viewcode-block" id="Dataset.load_builtin"><a class="viewcode-back" href="../../dataset.html#surprise.dataset.Dataset.load_builtin">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load_builtin</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ml-100k&#39;</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load a built-in dataset.</span>
+
+<span class="sd">        If the dataset has not already been loaded, it will be downloaded and</span>
+<span class="sd">        saved. You will have to split your dataset using the :meth:`split</span>
+<span class="sd">        &lt;DatasetAutoFolds.split&gt;` method. See an example in the :ref:`User</span>
+<span class="sd">        Guide &lt;cross_validate_example&gt;`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name(:obj:`string`): The name of the built-in dataset to load.</span>
+<span class="sd">                Accepted values are &#39;ml-100k&#39;, &#39;ml-1m&#39;, and &#39;jester&#39;.</span>
+<span class="sd">                Default is &#39;ml-100k&#39;.</span>
+<span class="sd">            prompt(:obj:`bool`): Prompt before downloading if dataset is not</span>
+<span class="sd">                already on disk.</span>
+<span class="sd">                Default is True.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A :obj:`Dataset` object.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the ``name`` parameter is incorrect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">BUILTIN_DATASETS</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unknown dataset &#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span>
+                             <span class="s1">&#39;. Accepted values are &#39;</span> <span class="o">+</span>
+                             <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BUILTIN_DATASETS</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># if dataset does not exist, offer to download it</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">path</span><span class="p">):</span>
+            <span class="n">answered</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">prompt</span>
+            <span class="k">while</span> <span class="ow">not</span> <span class="n">answered</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dataset &#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; could not be found. Do you want &#39;</span>
+                      <span class="s1">&#39;to download it? [Y/n] &#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="n">choice</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">choice</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;omg this is so nice of you!!&#39;</span><span class="p">]:</span>
+                    <span class="n">answered</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">elif</span> <span class="n">choice</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;hell no why would i want that?!&#39;</span><span class="p">]:</span>
+                    <span class="n">answered</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ok then, I&#39;m out!&quot;</span><span class="p">)</span>
+                    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+            <span class="n">download_builtin_dataset</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="o">**</span><span class="n">dataset</span><span class="o">.</span><span class="n">reader_params</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load_from_file</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">reader</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Dataset.load_from_file"><a class="viewcode-back" href="../../dataset.html#surprise.dataset.Dataset.load_from_file">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load_from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">reader</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load a dataset from a (custom) file.</span>
+
+<span class="sd">        Use this if you want to use a custom dataset and all of the ratings are</span>
+<span class="sd">        stored in one file. You will have to split your dataset using the</span>
+<span class="sd">        :meth:`split &lt;DatasetAutoFolds.split&gt;` method. See an example in the</span>
+<span class="sd">        :ref:`User Guide &lt;load_from_file_example&gt;`.</span>
+
+
+<span class="sd">        Args:</span>
+<span class="sd">            file_path(:obj:`string`): The path to the file containing ratings.</span>
+<span class="sd">            reader(:obj:`Reader &lt;surprise.reader.Reader&gt;`): A reader to read</span>
+<span class="sd">                the file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">DatasetAutoFolds</span><span class="p">(</span><span class="n">ratings_file</span><span class="o">=</span><span class="n">file_path</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">reader</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Dataset.load_from_folds"><a class="viewcode-back" href="../../dataset.html#surprise.dataset.Dataset.load_from_folds">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load_from_folds</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">folds_files</span><span class="p">,</span> <span class="n">reader</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load a dataset where folds (for cross-validation) are predefined by</span>
+<span class="sd">        some files.</span>
+
+<span class="sd">        The purpose of this method is to cover a common use case where a</span>
+<span class="sd">        dataset is already split into predefined folds, such as the</span>
+<span class="sd">        movielens-100k dataset which defines files u1.base, u1.test, u2.base,</span>
+<span class="sd">        u2.test, etc... It can also be used when you don&#39;t want to perform</span>
+<span class="sd">        cross-validation but still want to specify your training and testing</span>
+<span class="sd">        data (which comes down to 1-fold cross-validation anyway). See an</span>
+<span class="sd">        example in the :ref:`User Guide &lt;load_from_folds_example&gt;`.</span>
+
+
+<span class="sd">        Args:</span>
+<span class="sd">            folds_files(:obj:`iterable` of :obj:`tuples`): The list of the</span>
+<span class="sd">                folds. A fold is a tuple of the form ``(path_to_train_file,</span>
+<span class="sd">                path_to_test_file)``.</span>
+<span class="sd">            reader(:obj:`Reader &lt;surprise.reader.Reader&gt;`): A reader to read</span>
+<span class="sd">                the files.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">DatasetUserFolds</span><span class="p">(</span><span class="n">folds_files</span><span class="o">=</span><span class="n">folds_files</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">reader</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Dataset.load_from_df"><a class="viewcode-back" href="../../dataset.html#surprise.dataset.Dataset.load_from_df">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load_from_df</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">reader</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load a dataset from a pandas dataframe.</span>
+
+<span class="sd">        Use this if you want to use a custom dataset that is stored in a pandas</span>
+<span class="sd">        dataframe. See the :ref:`User Guide&lt;load_from_df_example&gt;` for an</span>
+<span class="sd">        example.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            df(`Dataframe`): The dataframe containing the ratings. It must have</span>
+<span class="sd">                three columns, corresponding to the user (raw) ids, the item</span>
+<span class="sd">                (raw) ids, and the ratings, in this order.</span>
+<span class="sd">            reader(:obj:`Reader &lt;surprise.reader.Reader&gt;`): A reader to read</span>
+<span class="sd">                the file. Only the ``rating_scale`` field needs to be</span>
+<span class="sd">                specified.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">DatasetAutoFolds</span><span class="p">(</span><span class="n">reader</span><span class="o">=</span><span class="n">reader</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">read_ratings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of ratings (user, item, rating, timestamp) read from</span>
+<span class="sd">        file_name&quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">file_name</span><span class="p">))</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">raw_ratings</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">parse_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span>
+                           <span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">skip_lines</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">raw_ratings</span>
+
+    <span class="k">def</span> <span class="nf">construct_trainset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_trainset</span><span class="p">):</span>
+
+        <span class="n">raw2inner_id_users</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">raw2inner_id_items</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">current_u_index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">current_i_index</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">ur</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="n">ir</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+        <span class="c1"># user raw id, item raw id, translated rating, time stamp</span>
+        <span class="k">for</span> <span class="n">urid</span><span class="p">,</span> <span class="n">irid</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">timestamp</span> <span class="ow">in</span> <span class="n">raw_trainset</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">uid</span> <span class="o">=</span> <span class="n">raw2inner_id_users</span><span class="p">[</span><span class="n">urid</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="n">uid</span> <span class="o">=</span> <span class="n">current_u_index</span>
+                <span class="n">raw2inner_id_users</span><span class="p">[</span><span class="n">urid</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_u_index</span>
+                <span class="n">current_u_index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">iid</span> <span class="o">=</span> <span class="n">raw2inner_id_items</span><span class="p">[</span><span class="n">irid</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="n">iid</span> <span class="o">=</span> <span class="n">current_i_index</span>
+                <span class="n">raw2inner_id_items</span><span class="p">[</span><span class="n">irid</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_i_index</span>
+                <span class="n">current_i_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="n">ur</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">iid</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+            <span class="n">ir</span><span class="p">[</span><span class="n">iid</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">uid</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+
+        <span class="n">n_users</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ur</span><span class="p">)</span>  <span class="c1"># number of users</span>
+        <span class="n">n_items</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ir</span><span class="p">)</span>  <span class="c1"># number of items</span>
+        <span class="n">n_ratings</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw_trainset</span><span class="p">)</span>
+
+        <span class="n">trainset</span> <span class="o">=</span> <span class="n">Trainset</span><span class="p">(</span><span class="n">ur</span><span class="p">,</span>
+                            <span class="n">ir</span><span class="p">,</span>
+                            <span class="n">n_users</span><span class="p">,</span>
+                            <span class="n">n_items</span><span class="p">,</span>
+                            <span class="n">n_ratings</span><span class="p">,</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">rating_scale</span><span class="p">,</span>
+                            <span class="n">raw2inner_id_users</span><span class="p">,</span>
+                            <span class="n">raw2inner_id_items</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">trainset</span>
+
+    <span class="k">def</span> <span class="nf">construct_testset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_testset</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="p">[(</span><span class="n">ruid</span><span class="p">,</span> <span class="n">riid</span><span class="p">,</span> <span class="n">r_ui_trans</span><span class="p">)</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">ruid</span><span class="p">,</span> <span class="n">riid</span><span class="p">,</span> <span class="n">r_ui_trans</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="n">raw_testset</span><span class="p">]</span></div>
+
+
+<span class="k">class</span> <span class="nc">DatasetUserFolds</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A derived class from :class:`Dataset` for which folds (for</span>
+<span class="sd">    cross-validation) are predefined.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folds_files</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="n">Dataset</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">folds_files</span> <span class="o">=</span> <span class="n">folds_files</span>
+
+        <span class="c1"># check that all files actually exist.</span>
+        <span class="k">for</span> <span class="n">train_test_files</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">folds_files</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">train_test_files</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">f</span><span class="p">)):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;File &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; does not exist.&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DatasetAutoFolds"><a class="viewcode-back" href="../../dataset.html#surprise.dataset.DatasetAutoFolds">[docs]</a><span class="k">class</span> <span class="nc">DatasetAutoFolds</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A derived class from :class:`Dataset` for which folds (for</span>
+<span class="sd">    cross-validation) are not predefined. (Or for when there are no folds at</span>
+<span class="sd">    all).&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ratings_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="n">Dataset</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">has_been_split</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># flag indicating if split() was called.</span>
+
+        <span class="k">if</span> <span class="n">ratings_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ratings_file</span> <span class="o">=</span> <span class="n">ratings_file</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">raw_ratings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_ratings</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ratings_file</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">raw_ratings</span> <span class="o">=</span> <span class="p">[(</span><span class="n">uid</span><span class="p">,</span> <span class="n">iid</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+                                <span class="k">for</span> <span class="p">(</span><span class="n">uid</span><span class="p">,</span> <span class="n">iid</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">itertuples</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Must specify ratings file or dataframe.&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DatasetAutoFolds.build_full_trainset"><a class="viewcode-back" href="../../dataset.html#surprise.dataset.DatasetAutoFolds.build_full_trainset">[docs]</a>    <span class="k">def</span> <span class="nf">build_full_trainset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Do not split the dataset into folds and just return a trainset as</span>
+<span class="sd">        is, built from the whole dataset.</span>
+
+<span class="sd">        User can then query for predictions, as shown in the :ref:`User Guide</span>
+<span class="sd">        &lt;train_on_whole_trainset&gt;`.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The :class:`Trainset &lt;surprise.Trainset&gt;`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">construct_trainset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_ratings</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2015, Nicolas Hug
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

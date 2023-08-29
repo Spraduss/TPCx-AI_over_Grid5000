@@ -1,0 +1,652 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FAQ &mdash; Surprise 1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="prediction_algorithms package" href="prediction_algorithms_package.html" />
+    <link rel="prev" title="Notation standards, References" href="notation_standards.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Surprise
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prediction_algorithms.html">Using prediction algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building_custom_algo.html">How to build your own prediction algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notation_standards.html">Notation standards, References</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-get-the-top-n-recommendations-for-each-user">How to get the top-N recommendations for each user</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-compute-precision-k-and-recall-k">How to compute precision&#64;k and recall&#64;k</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-get-the-k-nearest-neighbors-of-a-user-or-item">How to get the k nearest neighbors of a user (or item)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-serialize-an-algorithm">How to serialize an algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-build-my-own-prediction-algorithm">How to build my own prediction algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-are-raw-and-inner-ids">What are raw and inner ids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#can-i-use-my-own-dataset-with-surprise-and-can-it-be-a-pandas-dataframe">Can I use my own dataset with Surprise, and can it be a pandas dataframe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-tune-an-algorithm-parameters">How to tune an algorithm parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-get-accuracy-measures-on-the-training-set">How to get accuracy measures on the training set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-save-some-data-for-unbiased-accuracy-estimation">How to save some data for unbiased accuracy estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-have-reproducible-experiments">How to have reproducible experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#where-are-datasets-stored-and-how-to-change-it">Where are datasets stored and how to change it?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#can-surprise-support-content-based-data-or-implicit-ratings">Can Surprise support content-based data or implicit ratings?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="prediction_algorithms_package.html">prediction_algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_selection.html">The model_selection package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="similarities.html">similarities module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accuracy.html">accuracy module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">dataset module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trainset.html">Trainset class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reader.html">Reader class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dump.html">dump module</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Surprise</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>FAQ</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/FAQ.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="faq">
+<span id="id1"></span><h1>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h1>
+<p>You will find here the Frequently Asked Questions, as well as some other
+use-case examples that are not part of the User Guide.</p>
+<div class="section" id="how-to-get-the-top-n-recommendations-for-each-user">
+<h2>How to get the top-N recommendations for each user<a class="headerlink" href="#how-to-get-the-top-n-recommendations-for-each-user" title="Permalink to this headline">¶</a></h2>
+<p>Here is an example where we retrieve the top-10 items with highest
+rating prediction for each user in the MovieLens-100k dataset. We first train
+an SVD algorithm on the whole dataset, and then predict all the ratings for the
+pairs (user, item) that are not in the training set. We then retrieve the
+top-10 prediction for each user.</p>
+<div class="literal-block-wrapper docutils container" id="top-n-recommendations-py">
+<div class="code-block-caption"><span class="caption-text">From file <code class="docutils literal notranslate"><span class="pre">examples/top_n_recommendations.py</span></code></span><a class="headerlink" href="#top-n-recommendations-py" title="Permalink to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">SVD</span>
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">Dataset</span>
+
+
+<span class="k">def</span> <span class="nf">get_top_n</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the top-N recommendation for each user from a set of predictions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions(list of Prediction objects): The list of predictions, as</span>
+<span class="sd">            returned by the test method of an algorithm.</span>
+<span class="sd">        n(int): The number of recommendation to output for each user. Default</span>
+<span class="sd">            is 10.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    A dict where keys are user (raw) ids and values are lists of tuples:</span>
+<span class="sd">        [(raw item id, rating estimation), ...] of size n.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># First map the predictions to each user.</span>
+    <span class="n">top_n</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">uid</span><span class="p">,</span> <span class="n">iid</span><span class="p">,</span> <span class="n">true_r</span><span class="p">,</span> <span class="n">est</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">predictions</span><span class="p">:</span>
+        <span class="n">top_n</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">iid</span><span class="p">,</span> <span class="n">est</span><span class="p">))</span>
+
+    <span class="c1"># Then sort the predictions for each user and retrieve the k highest ones.</span>
+    <span class="k">for</span> <span class="n">uid</span><span class="p">,</span> <span class="n">user_ratings</span> <span class="ow">in</span> <span class="n">top_n</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">user_ratings</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">top_n</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_ratings</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">top_n</span>
+
+
+<span class="c1"># First train an SVD algorithm on the movielens dataset.</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">load_builtin</span><span class="p">(</span><span class="s1">&#39;ml-100k&#39;</span><span class="p">)</span>
+<span class="n">trainset</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">build_full_trainset</span><span class="p">()</span>
+<span class="n">algo</span> <span class="o">=</span> <span class="n">SVD</span><span class="p">()</span>
+<span class="n">algo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainset</span><span class="p">)</span>
+
+<span class="c1"># Than predict ratings for all pairs (u, i) that are NOT in the training set.</span>
+<span class="n">testset</span> <span class="o">=</span> <span class="n">trainset</span><span class="o">.</span><span class="n">build_anti_testset</span><span class="p">()</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">algo</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">testset</span><span class="p">)</span>
+
+<span class="n">top_n</span> <span class="o">=</span> <span class="n">get_top_n</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Print the recommended items for each user</span>
+<span class="k">for</span> <span class="n">uid</span><span class="p">,</span> <span class="n">user_ratings</span> <span class="ow">in</span> <span class="n">top_n</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">uid</span><span class="p">,</span> <span class="p">[</span><span class="n">iid</span> <span class="k">for</span> <span class="p">(</span><span class="n">iid</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="n">user_ratings</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="how-to-compute-precision-k-and-recall-k">
+<span id="precision-recall-at-k"></span><h2>How to compute precision&#64;k and recall&#64;k<a class="headerlink" href="#how-to-compute-precision-k-and-recall-k" title="Permalink to this headline">¶</a></h2>
+<p>Here is an example where we compute Precision&#64;k and Recall&#64;k for each user:</p>
+<p><span class="math notranslate nohighlight">\(\text{Precision&#64;k} = \frac{ | \{ \text{Recommended items that are relevant} \} | }{ | \{ \text{Recommended items} \} | }\)</span>
+<span class="math notranslate nohighlight">\(\text{Recall&#64;k} = \frac{ | \{ \text{Recommended items that are relevant} \} | }{ | \{ \text{Relevant items} \} | }\)</span></p>
+<p>An item is considered relevant if its true rating <span class="math notranslate nohighlight">\(r_{ui}\)</span> is greater
+than a given threshold.  An item is considered recommended if its estimated
+rating <span class="math notranslate nohighlight">\(\hat{r}_{ui}\)</span> is greater than the threshold, and if it is among
+the k highest estimated ratings.</p>
+<p>Note that in the edge cases where division by zero occurs,
+Precision&#64;k and Recall&#64;k values are undefined.
+As a convention, we set their values to 0 in such cases.</p>
+<div class="literal-block-wrapper docutils container" id="precision-recall-at-k-py">
+<div class="code-block-caption"><span class="caption-text">From file <code class="docutils literal notranslate"><span class="pre">examples/precision_recall_at_k.py</span></code></span><a class="headerlink" href="#precision-recall-at-k-py" title="Permalink to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">SVD</span>
+<span class="kn">from</span> <span class="nn">surprise.model_selection</span> <span class="kn">import</span> <span class="n">KFold</span>
+
+
+<span class="k">def</span> <span class="nf">precision_recall_at_k</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">3.5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return precision and recall at k metrics for each user&quot;&quot;&quot;</span>
+
+    <span class="c1"># First map the predictions to each user.</span>
+    <span class="n">user_est_true</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">uid</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">true_r</span><span class="p">,</span> <span class="n">est</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">predictions</span><span class="p">:</span>
+        <span class="n">user_est_true</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">est</span><span class="p">,</span> <span class="n">true_r</span><span class="p">))</span>
+
+    <span class="n">precisions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">recalls</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">uid</span><span class="p">,</span> <span class="n">user_ratings</span> <span class="ow">in</span> <span class="n">user_est_true</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+        <span class="c1"># Sort user ratings by estimated value</span>
+        <span class="n">user_ratings</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Number of relevant items</span>
+        <span class="n">n_rel</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">true_r</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">true_r</span><span class="p">)</span> <span class="ow">in</span> <span class="n">user_ratings</span><span class="p">)</span>
+
+        <span class="c1"># Number of recommended items in top k</span>
+        <span class="n">n_rec_k</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">est</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">est</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="n">user_ratings</span><span class="p">[:</span><span class="n">k</span><span class="p">])</span>
+
+        <span class="c1"># Number of relevant and recommended items in top k</span>
+        <span class="n">n_rel_and_rec_k</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(((</span><span class="n">true_r</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">est</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">))</span>
+                              <span class="k">for</span> <span class="p">(</span><span class="n">est</span><span class="p">,</span> <span class="n">true_r</span><span class="p">)</span> <span class="ow">in</span> <span class="n">user_ratings</span><span class="p">[:</span><span class="n">k</span><span class="p">])</span>
+
+        <span class="c1"># Precision@K: Proportion of recommended items that are relevant</span>
+        <span class="c1"># When n_rec_k is 0, Precision is undefined. We here set it to 0.</span>
+
+        <span class="n">precisions</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_rel_and_rec_k</span> <span class="o">/</span> <span class="n">n_rec_k</span> <span class="k">if</span> <span class="n">n_rec_k</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+
+        <span class="c1"># Recall@K: Proportion of relevant items that are recommended</span>
+        <span class="c1"># When n_rel is 0, Recall is undefined. We here set it to 0.</span>
+
+        <span class="n">recalls</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_rel_and_rec_k</span> <span class="o">/</span> <span class="n">n_rel</span> <span class="k">if</span> <span class="n">n_rel</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+
+    <span class="k">return</span> <span class="n">precisions</span><span class="p">,</span> <span class="n">recalls</span>
+
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">load_builtin</span><span class="p">(</span><span class="s1">&#39;ml-100k&#39;</span><span class="p">)</span>
+<span class="n">kf</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">algo</span> <span class="o">=</span> <span class="n">SVD</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">trainset</span><span class="p">,</span> <span class="n">testset</span> <span class="ow">in</span> <span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">algo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainset</span><span class="p">)</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">algo</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">testset</span><span class="p">)</span>
+    <span class="n">precisions</span><span class="p">,</span> <span class="n">recalls</span> <span class="o">=</span> <span class="n">precision_recall_at_k</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="c1"># Precision and recall can then be averaged over all users</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">prec</span> <span class="k">for</span> <span class="n">prec</span> <span class="ow">in</span> <span class="n">precisions</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">precisions</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">rec</span> <span class="k">for</span> <span class="n">rec</span> <span class="ow">in</span> <span class="n">recalls</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">recalls</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="how-to-get-the-k-nearest-neighbors-of-a-user-or-item">
+<span id="get-k-nearest-neighbors"></span><h2>How to get the k nearest neighbors of a user (or item)<a class="headerlink" href="#how-to-get-the-k-nearest-neighbors-of-a-user-or-item" title="Permalink to this headline">¶</a></h2>
+<p>You can use the <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.get_neighbors" title="surprise.prediction_algorithms.algo_base.AlgoBase.get_neighbors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_neighbors()</span></code></a> methods of
+the algorithm object. This is only relevant for algorithms that use a
+similarity measure, such as the <a class="reference internal" href="knn_inspired.html#pred-package-knn-inpired"><span class="std std-ref">k-NN algorithms</span></a>.</p>
+<p>Here is an example where we retrieve the 10 nearest neighbors of the movie Toy
+Story from the MovieLens-100k dataset. The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>The 10 nearest neighbors of Toy Story are:
+Beauty and the Beast (1991)
+Raiders of the Lost Ark (1981)
+That Thing You Do! (1996)
+Lion King, The (1994)
+Craft, The (1996)
+Liar Liar (1997)
+Aladdin (1992)
+Cool Hand Luke (1967)
+Winnie the Pooh and the Blustery Day (1968)
+Indiana Jones and the Last Crusade (1989)
+</pre></div>
+</div>
+<p>There’s a lot of boilerplate because of the conversions between movie names and
+their raw/inner ids (see <a class="reference internal" href="#raw-inner-note"><span class="std std-ref">this note</span></a>), but it all boils
+down to the use of <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.get_neighbors" title="surprise.prediction_algorithms.algo_base.AlgoBase.get_neighbors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_neighbors()</span></code></a>:</p>
+<div class="literal-block-wrapper docutils container" id="k-nearest-neighbors-py">
+<div class="code-block-caption"><span class="caption-text">From file <code class="docutils literal notranslate"><span class="pre">examples/k_nearest_neighbors.py</span></code></span><a class="headerlink" href="#k-nearest-neighbors-py" title="Permalink to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">io</span>  <span class="c1"># needed because of weird encoding of u.item file</span>
+
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">KNNBaseline</span>
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">get_dataset_dir</span>
+
+
+<span class="k">def</span> <span class="nf">read_item_names</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Read the u.item file from MovieLens 100-k dataset and return two</span>
+<span class="sd">    mappings to convert raw ids into movie names and movie names into raw ids.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">get_dataset_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/ml-100k/ml-100k/u.item&#39;</span>
+    <span class="n">rid_to_name</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">name_to_rid</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;ISO-8859-1&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">)</span>
+            <span class="n">rid_to_name</span><span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">name_to_rid</span><span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">rid_to_name</span><span class="p">,</span> <span class="n">name_to_rid</span>
+
+
+<span class="c1"># First, train the algortihm to compute the similarities between items</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">load_builtin</span><span class="p">(</span><span class="s1">&#39;ml-100k&#39;</span><span class="p">)</span>
+<span class="n">trainset</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">build_full_trainset</span><span class="p">()</span>
+<span class="n">sim_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pearson_baseline&#39;</span><span class="p">,</span> <span class="s1">&#39;user_based&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+<span class="n">algo</span> <span class="o">=</span> <span class="n">KNNBaseline</span><span class="p">(</span><span class="n">sim_options</span><span class="o">=</span><span class="n">sim_options</span><span class="p">)</span>
+<span class="n">algo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainset</span><span class="p">)</span>
+
+<span class="c1"># Read the mappings raw id &lt;-&gt; movie name</span>
+<span class="n">rid_to_name</span><span class="p">,</span> <span class="n">name_to_rid</span> <span class="o">=</span> <span class="n">read_item_names</span><span class="p">()</span>
+
+<span class="c1"># Retrieve inner id of the movie Toy Story</span>
+<span class="n">toy_story_raw_id</span> <span class="o">=</span> <span class="n">name_to_rid</span><span class="p">[</span><span class="s1">&#39;Toy Story (1995)&#39;</span><span class="p">]</span>
+<span class="n">toy_story_inner_id</span> <span class="o">=</span> <span class="n">algo</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">to_inner_iid</span><span class="p">(</span><span class="n">toy_story_raw_id</span><span class="p">)</span>
+
+<span class="c1"># Retrieve inner ids of the nearest neighbors of Toy Story.</span>
+<span class="n">toy_story_neighbors</span> <span class="o">=</span> <span class="n">algo</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="n">toy_story_inner_id</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Convert inner ids of the neighbors into names.</span>
+<span class="n">toy_story_neighbors</span> <span class="o">=</span> <span class="p">(</span><span class="n">algo</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">to_raw_iid</span><span class="p">(</span><span class="n">inner_id</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">inner_id</span> <span class="ow">in</span> <span class="n">toy_story_neighbors</span><span class="p">)</span>
+<span class="n">toy_story_neighbors</span> <span class="o">=</span> <span class="p">(</span><span class="n">rid_to_name</span><span class="p">[</span><span class="n">rid</span><span class="p">]</span>
+                       <span class="k">for</span> <span class="n">rid</span> <span class="ow">in</span> <span class="n">toy_story_neighbors</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The 10 nearest neighbors of Toy Story are:&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">movie</span> <span class="ow">in</span> <span class="n">toy_story_neighbors</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">movie</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Naturally, the same can be done for users with minor modifications.</p>
+</div>
+<div class="section" id="how-to-serialize-an-algorithm">
+<span id="serialize-an-algorithm"></span><h2>How to serialize an algorithm<a class="headerlink" href="#how-to-serialize-an-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>Prediction algorithms can be serialized and loaded back using the <a class="reference internal" href="dump.html#surprise.dump.dump" title="surprise.dump.dump"><code class="xref py py-func docutils literal notranslate"><span class="pre">dump()</span></code></a> and <a class="reference internal" href="dump.html#surprise.dump.load" title="surprise.dump.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load()</span></code></a> functions. Here
+is a small example where the SVD algorithm is trained on a dataset and
+serialized. It is then reloaded and can be used again for making predictions:</p>
+<div class="literal-block-wrapper docutils container" id="serialize-algorithm-py">
+<div class="code-block-caption"><span class="caption-text">From file <code class="docutils literal notranslate"><span class="pre">examples/serialize_algorithm.py</span></code></span><a class="headerlink" href="#serialize-algorithm-py" title="Permalink to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">SVD</span>
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">dump</span>
+
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">load_builtin</span><span class="p">(</span><span class="s1">&#39;ml-100k&#39;</span><span class="p">)</span>
+<span class="n">trainset</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">build_full_trainset</span><span class="p">()</span>
+
+<span class="n">algo</span> <span class="o">=</span> <span class="n">SVD</span><span class="p">()</span>
+<span class="n">algo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainset</span><span class="p">)</span>
+
+<span class="c1"># Compute predictions of the &#39;original&#39; algorithm.</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">algo</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">trainset</span><span class="o">.</span><span class="n">build_testset</span><span class="p">())</span>
+
+<span class="c1"># Dump algorithm and reload it.</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/dump_file&#39;</span><span class="p">)</span>
+<span class="n">dump</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">algo</span><span class="o">=</span><span class="n">algo</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">loaded_algo</span> <span class="o">=</span> <span class="n">dump</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+
+<span class="c1"># We now ensure that the algo is still the same by checking the predictions.</span>
+<span class="n">predictions_loaded_algo</span> <span class="o">=</span> <span class="n">loaded_algo</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">trainset</span><span class="o">.</span><span class="n">build_testset</span><span class="p">())</span>
+<span class="k">assert</span> <span class="n">predictions</span> <span class="o">==</span> <span class="n">predictions_loaded_algo</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Predictions are the same&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p id="further-analysis">Algorithms can be serialized along with their predictions, so that can be
+further analyzed or compared with other algorithms, using pandas dataframes.
+Some examples are given in the two following notebooks:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="http://nbviewer.jupyter.org/github/NicolasHug/Surprise/tree/master/examples/notebooks/KNNBasic_analysis.ipynb/">Dumping and analysis of the KNNBasic algorithm</a>.</p></li>
+<li><p><a class="reference external" href="http://nbviewer.jupyter.org/github/NicolasHug/Surprise/tree/master/examples/notebooks/Compare.ipynb/">Comparison of two algorithms</a>.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="how-to-build-my-own-prediction-algorithm">
+<h2>How to build my own prediction algorithm<a class="headerlink" href="#how-to-build-my-own-prediction-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>There’s a whole guide <a class="reference internal" href="building_custom_algo.html#building-custom-algo"><span class="std std-ref">here</span></a>.</p>
+</div>
+<div class="section" id="what-are-raw-and-inner-ids">
+<span id="raw-inner-note"></span><h2>What are raw and inner ids<a class="headerlink" href="#what-are-raw-and-inner-ids" title="Permalink to this headline">¶</a></h2>
+<p>Users and items have a raw id and an inner id. Some methods will use/return a
+raw id (e.g. the <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.predict" title="surprise.prediction_algorithms.algo_base.AlgoBase.predict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">predict()</span></code></a> method), while
+some other will use/return an inner id.</p>
+<p>Raw ids are ids as defined in a rating file or in a pandas dataframe. They can
+be strings or numbers. Note though that if the ratings were read from a file
+which is the standard scenario, they are represented as strings. <strong>This is
+important to know if you’re using e.g.</strong> <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.predict" title="surprise.prediction_algorithms.algo_base.AlgoBase.predict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">predict()</span></code></a> <strong>or other methods
+that accept raw ids as parameters.</strong></p>
+<p>On trainset creation, each raw id is mapped to a unique integer called inner
+id, which is a lot more suitable for <a class="reference external" href="https://nicolashug.github.io/Surprise/">Surprise</a> to manipulate. Conversions between
+raw and inner ids can be done using the <a class="reference internal" href="trainset.html#surprise.Trainset.to_inner_uid" title="surprise.Trainset.to_inner_uid"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_inner_uid()</span></code></a>, <a class="reference internal" href="trainset.html#surprise.Trainset.to_inner_iid" title="surprise.Trainset.to_inner_iid"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_inner_iid()</span></code></a>, <a class="reference internal" href="trainset.html#surprise.Trainset.to_raw_uid" title="surprise.Trainset.to_raw_uid"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_raw_uid()</span></code></a>, and <a class="reference internal" href="trainset.html#surprise.Trainset.to_raw_iid" title="surprise.Trainset.to_raw_iid"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_raw_iid()</span></code></a> methods of the <a class="reference internal" href="trainset.html#surprise.Trainset" title="surprise.Trainset"><code class="xref py py-class docutils literal notranslate"><span class="pre">trainset</span></code></a>.</p>
+</div>
+<div class="section" id="can-i-use-my-own-dataset-with-surprise-and-can-it-be-a-pandas-dataframe">
+<h2>Can I use my own dataset with Surprise, and can it be a pandas dataframe<a class="headerlink" href="#can-i-use-my-own-dataset-with-surprise-and-can-it-be-a-pandas-dataframe" title="Permalink to this headline">¶</a></h2>
+<p>Yes, and yes. See the <a class="reference internal" href="getting_started.html#load-custom"><span class="std std-ref">user guide</span></a>.</p>
+</div>
+<div class="section" id="how-to-tune-an-algorithm-parameters">
+<h2>How to tune an algorithm parameters<a class="headerlink" href="#how-to-tune-an-algorithm-parameters" title="Permalink to this headline">¶</a></h2>
+<p>You can tune the parameters of an algorithm with the <a class="reference internal" href="model_selection.html#surprise.model_selection.search.GridSearchCV" title="surprise.model_selection.search.GridSearchCV"><code class="xref py py-class docutils literal notranslate"><span class="pre">GridSearchCV</span></code></a> class as described <a class="reference internal" href="getting_started.html#tuning-algorithm-parameters"><span class="std std-ref">here</span></a>. After the tuning, you may want to have an
+<a class="reference internal" href="#unbiased-estimate-after-tuning"><span class="std std-ref">unbiased estimate of your algorithm performances</span></a>.</p>
+</div>
+<div class="section" id="how-to-get-accuracy-measures-on-the-training-set">
+<h2>How to get accuracy measures on the training set<a class="headerlink" href="#how-to-get-accuracy-measures-on-the-training-set" title="Permalink to this headline">¶</a></h2>
+<p>You can use the <a class="reference internal" href="trainset.html#surprise.Trainset.build_testset" title="surprise.Trainset.build_testset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_testset()</span></code></a> method of the <a class="reference internal" href="trainset.html#surprise.Trainset" title="surprise.Trainset"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trainset</span></code></a> object to build a testset that can be then used
+with the <a class="reference internal" href="algobase.html#surprise.prediction_algorithms.algo_base.AlgoBase.test" title="surprise.prediction_algorithms.algo_base.AlgoBase.test"><code class="xref py py-meth docutils literal notranslate"><span class="pre">test()</span></code></a> method:</p>
+<div class="literal-block-wrapper docutils container" id="evaluate-on-trainset-py">
+<div class="code-block-caption"><span class="caption-text">From file <code class="docutils literal notranslate"><span class="pre">examples/evaluate_on_trainset.py</span></code></span><a class="headerlink" href="#evaluate-on-trainset-py" title="Permalink to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">SVD</span>
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">accuracy</span>
+<span class="kn">from</span> <span class="nn">surprise.model_selection</span> <span class="kn">import</span> <span class="n">KFold</span>
+
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">load_builtin</span><span class="p">(</span><span class="s1">&#39;ml-100k&#39;</span><span class="p">)</span>
+
+<span class="n">algo</span> <span class="o">=</span> <span class="n">SVD</span><span class="p">()</span>
+
+<span class="n">trainset</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">build_full_trainset</span><span class="p">()</span>
+<span class="n">algo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainset</span><span class="p">)</span>
+
+<span class="n">testset</span> <span class="o">=</span> <span class="n">trainset</span><span class="o">.</span><span class="n">build_testset</span><span class="p">()</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">algo</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">testset</span><span class="p">)</span>
+<span class="c1"># RMSE should be low as we are biased</span>
+<span class="n">accuracy</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># ~ 0.68 (which is low)</span>
+</pre></div>
+</div>
+</div>
+<p>Check out the example file for more usage examples.</p>
+</div>
+<div class="section" id="how-to-save-some-data-for-unbiased-accuracy-estimation">
+<span id="unbiased-estimate-after-tuning"></span><h2>How to save some data for unbiased accuracy estimation<a class="headerlink" href="#how-to-save-some-data-for-unbiased-accuracy-estimation" title="Permalink to this headline">¶</a></h2>
+<p>If your goal is to tune the parameters of an algorithm, you may want to spare a
+bit of data to have an unbiased estimation of its performances. For instance
+you may want to split your data into two sets A and B. A is used for parameter
+tuning using grid search, and B is used for unbiased estimation. This can be
+done as follows:</p>
+<div class="literal-block-wrapper docutils container" id="split-data-for-unbiased-estimation-py">
+<div class="code-block-caption"><span class="caption-text">From file <code class="docutils literal notranslate"><span class="pre">examples/split_data_for_unbiased_estimation.py</span></code></span><a class="headerlink" href="#split-data-for-unbiased-estimation-py" title="Permalink to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">SVD</span>
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">from</span> <span class="nn">surprise</span> <span class="kn">import</span> <span class="n">accuracy</span>
+<span class="kn">from</span> <span class="nn">surprise.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+
+<span class="c1"># Load the full dataset.</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">load_builtin</span><span class="p">(</span><span class="s1">&#39;ml-100k&#39;</span><span class="p">)</span>
+<span class="n">raw_ratings</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">raw_ratings</span>
+
+<span class="c1"># shuffle ratings if you want</span>
+<span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">raw_ratings</span><span class="p">)</span>
+
+<span class="c1"># A = 90% of the data, B = 10% of the data</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="o">.</span><span class="mi">9</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw_ratings</span><span class="p">))</span>
+<span class="n">A_raw_ratings</span> <span class="o">=</span> <span class="n">raw_ratings</span><span class="p">[:</span><span class="n">threshold</span><span class="p">]</span>
+<span class="n">B_raw_ratings</span> <span class="o">=</span> <span class="n">raw_ratings</span><span class="p">[</span><span class="n">threshold</span><span class="p">:]</span>
+
+<span class="n">data</span><span class="o">.</span><span class="n">raw_ratings</span> <span class="o">=</span> <span class="n">A_raw_ratings</span>  <span class="c1"># data is now the set A</span>
+
+<span class="c1"># Select your best algo with grid search.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Grid Search...&#39;</span><span class="p">)</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;n_epochs&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="s1">&#39;lr_all&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.002</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">]}</span>
+<span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">SVD</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">measures</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;rmse&#39;</span><span class="p">],</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">algo</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator</span><span class="p">[</span><span class="s1">&#39;rmse&#39;</span><span class="p">]</span>
+
+<span class="c1"># retrain on the whole set A</span>
+<span class="n">trainset</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">build_full_trainset</span><span class="p">()</span>
+<span class="n">algo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainset</span><span class="p">)</span>
+
+<span class="c1"># Compute biased accuracy on A</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">algo</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">trainset</span><span class="o">.</span><span class="n">build_testset</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Biased accuracy on A,&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;   &#39;</span><span class="p">)</span>
+<span class="n">accuracy</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+
+<span class="c1"># Compute unbiased accuracy on B</span>
+<span class="n">testset</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">construct_testset</span><span class="p">(</span><span class="n">B_raw_ratings</span><span class="p">)</span>  <span class="c1"># testset is now the set B</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">algo</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">testset</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Unbiased accuracy on B,&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+<span class="n">accuracy</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="how-to-have-reproducible-experiments">
+<h2>How to have reproducible experiments<a class="headerlink" href="#how-to-have-reproducible-experiments" title="Permalink to this headline">¶</a></h2>
+<p>Some algorithms randomly initialize their parameters (sometimes with
+<code class="docutils literal notranslate"><span class="pre">numpy</span></code>), and the cross-validation folds are also randomly generated. If you
+need to reproduce your experiments multiple times, you just have to set the
+seed of the RNG at the beginning of your program:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">my_seed</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">my_seed</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">my_seed</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="where-are-datasets-stored-and-how-to-change-it">
+<span id="data-folder"></span><h2>Where are datasets stored and how to change it?<a class="headerlink" href="#where-are-datasets-stored-and-how-to-change-it" title="Permalink to this headline">¶</a></h2>
+<p>By default, datasets downloaded by Surprise will be saved in the
+<code class="docutils literal notranslate"><span class="pre">'~/.surprise_data'</span></code> directory. This is also where dump files will be stored.
+You can change the default directory by setting the <code class="docutils literal notranslate"><span class="pre">'SURPRISE_DATA_FOLDER'</span></code>
+environment variable.</p>
+</div>
+<div class="section" id="can-surprise-support-content-based-data-or-implicit-ratings">
+<h2>Can Surprise support content-based data or implicit ratings?<a class="headerlink" href="#can-surprise-support-content-based-data-or-implicit-ratings" title="Permalink to this headline">¶</a></h2>
+<p>No: this is out of scope for surprise. Surprise was designed for explicit
+ratings.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="prediction_algorithms_package.html" class="btn btn-neutral float-right" title="prediction_algorithms package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="notation_standards.html" class="btn btn-neutral float-left" title="Notation standards, References" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2015, Nicolas Hug
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

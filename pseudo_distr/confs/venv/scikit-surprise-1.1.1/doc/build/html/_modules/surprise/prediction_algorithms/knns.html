@@ -1,0 +1,635 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>surprise.prediction_algorithms.knns &mdash; Surprise 1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> Surprise
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../prediction_algorithms.html">Using prediction algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../building_custom_algo.html">How to build your own prediction algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notation_standards.html">Notation standards, References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../FAQ.html">FAQ</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../prediction_algorithms_package.html">prediction_algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_selection.html">The model_selection package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../similarities.html">similarities module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../accuracy.html">accuracy module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dataset.html">dataset module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../trainset.html">Trainset class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reader.html">Reader class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dump.html">dump module</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Surprise</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>surprise.prediction_algorithms.knns</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for surprise.prediction_algorithms.knns</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">the :mod:`knns` module includes some k-NN inspired algorithms.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span>
+                        <span class="n">unicode_literals</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">six</span> <span class="kn">import</span> <span class="n">iteritems</span>
+<span class="kn">import</span> <span class="nn">heapq</span>
+
+<span class="kn">from</span> <span class="nn">.predictions</span> <span class="kn">import</span> <span class="n">PredictionImpossible</span>
+<span class="kn">from</span> <span class="nn">.algo_base</span> <span class="kn">import</span> <span class="n">AlgoBase</span>
+
+
+<span class="c1"># Important note: as soon as an algorithm uses a similarity measure, it should</span>
+<span class="c1"># also allow the bsl_options parameter because of the pearson_baseline</span>
+<span class="c1"># similarity. It can be done explicitely (e.g. KNNBaseline), or implicetely</span>
+<span class="c1"># using kwargs (e.g. KNNBasic).</span>
+
+<span class="k">class</span> <span class="nc">SymmetricAlgo</span><span class="p">(</span><span class="n">AlgoBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This is an abstract class aimed to ease the use of symmetric algorithms.</span>
+
+<span class="sd">    A symmetric algorithm is an algorithm that can can be based on users or on</span>
+<span class="sd">    items indifferently, e.g. all the algorithms in this module.</span>
+
+<span class="sd">    When the algo is user-based x denotes a user and y an item. Else, it&#39;s</span>
+<span class="sd">    reversed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim_options</span><span class="o">=</span><span class="p">{},</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="n">AlgoBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim_options</span><span class="o">=</span><span class="n">sim_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainset</span><span class="p">):</span>
+
+        <span class="n">AlgoBase</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainset</span><span class="p">)</span>
+
+        <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim_options</span><span class="p">[</span><span class="s1">&#39;user_based&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">n_users</span> <span class="k">if</span> <span class="n">ub</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">n_items</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">n_items</span> <span class="k">if</span> <span class="n">ub</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">n_users</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">ur</span> <span class="k">if</span> <span class="n">ub</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">ir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">ir</span> <span class="k">if</span> <span class="n">ub</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">ur</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">switch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u_stuff</span><span class="p">,</span> <span class="n">i_stuff</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return x_stuff and y_stuff depending on the user_based field.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim_options</span><span class="p">[</span><span class="s1">&#39;user_based&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">u_stuff</span><span class="p">,</span> <span class="n">i_stuff</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">i_stuff</span><span class="p">,</span> <span class="n">u_stuff</span>
+
+
+<div class="viewcode-block" id="KNNBasic"><a class="viewcode-back" href="../../../knn_inspired.html#surprise.prediction_algorithms.knns.KNNBasic">[docs]</a><span class="k">class</span> <span class="nc">KNNBasic</span><span class="p">(</span><span class="n">SymmetricAlgo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A basic collaborative filtering algorithm.</span>
+
+<span class="sd">    The prediction :math:`\\hat{r}_{ui}` is set as:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \hat{r}_{ui} = \\frac{</span>
+<span class="sd">        \\sum\\limits_{v \in N^k_i(u)} \\text{sim}(u, v) \cdot r_{vi}}</span>
+<span class="sd">        {\\sum\\limits_{v \in N^k_i(u)} \\text{sim}(u, v)}</span>
+
+<span class="sd">    or</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \hat{r}_{ui} = \\frac{</span>
+<span class="sd">        \\sum\\limits_{j \in N^k_u(i)} \\text{sim}(i, j) \cdot r_{uj}}</span>
+<span class="sd">        {\\sum\\limits_{j \in N^k_u(i)} \\text{sim}(i, j)}</span>
+
+<span class="sd">    depending on the ``user_based`` field of the ``sim_options`` parameter.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        k(int): The (max) number of neighbors to take into account for</span>
+<span class="sd">            aggregation (see :ref:`this note &lt;actual_k_note&gt;`). Default is</span>
+<span class="sd">            ``40``.</span>
+<span class="sd">        min_k(int): The minimum number of neighbors to take into account for</span>
+<span class="sd">            aggregation. If there are not enough neighbors, the prediction is</span>
+<span class="sd">            set to the global mean of all ratings. Default is ``1``.</span>
+<span class="sd">        sim_options(dict): A dictionary of options for the similarity</span>
+<span class="sd">            measure. See :ref:`similarity_measures_configuration` for accepted</span>
+<span class="sd">            options.</span>
+<span class="sd">        verbose(bool): Whether to print trace messages of bias estimation,</span>
+<span class="sd">            similarity, etc.  Default is True.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">min_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sim_options</span><span class="o">=</span><span class="p">{},</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="n">SymmetricAlgo</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim_options</span><span class="o">=</span><span class="n">sim_options</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_k</span> <span class="o">=</span> <span class="n">min_k</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainset</span><span class="p">):</span>
+
+        <span class="n">SymmetricAlgo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainset</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_similarities</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">knows_user</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">knows_item</span><span class="p">(</span><span class="n">i</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="n">PredictionImpossible</span><span class="p">(</span><span class="s1">&#39;User and/or item is unknown.&#39;</span><span class="p">)</span>
+
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">switch</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">x2</span><span class="p">],</span> <span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yr</span><span class="p">[</span><span class="n">y</span><span class="p">]]</span>
+        <span class="n">k_neighbors</span> <span class="o">=</span> <span class="n">heapq</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># compute weighted average</span>
+        <span class="n">sum_sim</span> <span class="o">=</span> <span class="n">sum_ratings</span> <span class="o">=</span> <span class="n">actual_k</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="n">k_neighbors</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">sum_sim</span> <span class="o">+=</span> <span class="n">sim</span>
+                <span class="n">sum_ratings</span> <span class="o">+=</span> <span class="n">sim</span> <span class="o">*</span> <span class="n">r</span>
+                <span class="n">actual_k</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">actual_k</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_k</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PredictionImpossible</span><span class="p">(</span><span class="s1">&#39;Not enough neighbors.&#39;</span><span class="p">)</span>
+
+        <span class="n">est</span> <span class="o">=</span> <span class="n">sum_ratings</span> <span class="o">/</span> <span class="n">sum_sim</span>
+
+        <span class="n">details</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;actual_k&#39;</span><span class="p">:</span> <span class="n">actual_k</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">est</span><span class="p">,</span> <span class="n">details</span></div>
+
+
+<div class="viewcode-block" id="KNNWithMeans"><a class="viewcode-back" href="../../../knn_inspired.html#surprise.prediction_algorithms.knns.KNNWithMeans">[docs]</a><span class="k">class</span> <span class="nc">KNNWithMeans</span><span class="p">(</span><span class="n">SymmetricAlgo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A basic collaborative filtering algorithm, taking into account the mean</span>
+<span class="sd">    ratings of each user.</span>
+
+<span class="sd">    The prediction :math:`\\hat{r}_{ui}` is set as:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \hat{r}_{ui} = \mu_u + \\frac{ \\sum\\limits_{v \in N^k_i(u)}</span>
+<span class="sd">        \\text{sim}(u, v) \cdot (r_{vi} - \mu_v)} {\\sum\\limits_{v \in</span>
+<span class="sd">        N^k_i(u)} \\text{sim}(u, v)}</span>
+
+<span class="sd">    or</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \hat{r}_{ui} = \mu_i + \\frac{ \\sum\\limits_{j \in N^k_u(i)}</span>
+<span class="sd">        \\text{sim}(i, j) \cdot (r_{uj} - \mu_j)} {\\sum\\limits_{j \in</span>
+<span class="sd">        N^k_u(i)} \\text{sim}(i, j)}</span>
+
+<span class="sd">    depending on the ``user_based`` field of the ``sim_options`` parameter.</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        k(int): The (max) number of neighbors to take into account for</span>
+<span class="sd">            aggregation (see :ref:`this note &lt;actual_k_note&gt;`). Default is</span>
+<span class="sd">            ``40``.</span>
+<span class="sd">        min_k(int): The minimum number of neighbors to take into account for</span>
+<span class="sd">            aggregation. If there are not enough neighbors, the neighbor</span>
+<span class="sd">            aggregation is set to zero (so the prediction ends up being</span>
+<span class="sd">            equivalent to the mean :math:`\mu_u` or :math:`\mu_i`). Default is</span>
+<span class="sd">            ``1``.</span>
+<span class="sd">        sim_options(dict): A dictionary of options for the similarity</span>
+<span class="sd">            measure. See :ref:`similarity_measures_configuration` for accepted</span>
+<span class="sd">            options.</span>
+<span class="sd">        verbose(bool): Whether to print trace messages of bias estimation,</span>
+<span class="sd">            similarity, etc.  Default is True.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">min_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sim_options</span><span class="o">=</span><span class="p">{},</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="n">SymmetricAlgo</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim_options</span><span class="o">=</span><span class="n">sim_options</span><span class="p">,</span>
+                               <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_k</span> <span class="o">=</span> <span class="n">min_k</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainset</span><span class="p">):</span>
+
+        <span class="n">SymmetricAlgo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainset</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_similarities</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_x</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">ratings</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xr</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">means</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">r</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ratings</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">knows_user</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">knows_item</span><span class="p">(</span><span class="n">i</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="n">PredictionImpossible</span><span class="p">(</span><span class="s1">&#39;User and/or item is unknown.&#39;</span><span class="p">)</span>
+
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">switch</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">x2</span><span class="p">],</span> <span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yr</span><span class="p">[</span><span class="n">y</span><span class="p">]]</span>
+        <span class="n">k_neighbors</span> <span class="o">=</span> <span class="n">heapq</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">est</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">means</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+
+        <span class="c1"># compute weighted average</span>
+        <span class="n">sum_sim</span> <span class="o">=</span> <span class="n">sum_ratings</span> <span class="o">=</span> <span class="n">actual_k</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">nb</span><span class="p">,</span> <span class="n">sim</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="n">k_neighbors</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">sum_sim</span> <span class="o">+=</span> <span class="n">sim</span>
+                <span class="n">sum_ratings</span> <span class="o">+=</span> <span class="n">sim</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">means</span><span class="p">[</span><span class="n">nb</span><span class="p">])</span>
+                <span class="n">actual_k</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">actual_k</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_k</span><span class="p">:</span>
+            <span class="n">sum_ratings</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">est</span> <span class="o">+=</span> <span class="n">sum_ratings</span> <span class="o">/</span> <span class="n">sum_sim</span>
+        <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>
+            <span class="k">pass</span>  <span class="c1"># return mean</span>
+
+        <span class="n">details</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;actual_k&#39;</span><span class="p">:</span> <span class="n">actual_k</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">est</span><span class="p">,</span> <span class="n">details</span></div>
+
+
+<div class="viewcode-block" id="KNNBaseline"><a class="viewcode-back" href="../../../knn_inspired.html#surprise.prediction_algorithms.knns.KNNBaseline">[docs]</a><span class="k">class</span> <span class="nc">KNNBaseline</span><span class="p">(</span><span class="n">SymmetricAlgo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A basic collaborative filtering algorithm taking into account a</span>
+<span class="sd">    *baseline* rating.</span>
+
+
+<span class="sd">    The prediction :math:`\\hat{r}_{ui}` is set as:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \hat{r}_{ui} = b_{ui} + \\frac{ \\sum\\limits_{v \in N^k_i(u)}</span>
+<span class="sd">        \\text{sim}(u, v) \cdot (r_{vi} - b_{vi})} {\\sum\\limits_{v \in</span>
+<span class="sd">        N^k_i(u)} \\text{sim}(u, v)}</span>
+
+<span class="sd">    or</span>
+
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \hat{r}_{ui} = b_{ui} + \\frac{ \\sum\\limits_{j \in N^k_u(i)}</span>
+<span class="sd">        \\text{sim}(i, j) \cdot (r_{uj} - b_{uj})} {\\sum\\limits_{j \in</span>
+<span class="sd">        N^k_u(i)} \\text{sim}(i, j)}</span>
+
+<span class="sd">    depending on the ``user_based`` field of the ``sim_options`` parameter. For</span>
+<span class="sd">    the best predictions, use the :func:`pearson_baseline</span>
+<span class="sd">    &lt;surprise.similarities.pearson_baseline&gt;` similarity measure.</span>
+
+<span class="sd">    This algorithm corresponds to formula (3), section 2.2 of</span>
+<span class="sd">    :cite:`Koren:2010`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        k(int): The (max) number of neighbors to take into account for</span>
+<span class="sd">            aggregation (see :ref:`this note &lt;actual_k_note&gt;`). Default is</span>
+<span class="sd">            ``40``.</span>
+<span class="sd">        min_k(int): The minimum number of neighbors to take into account for</span>
+<span class="sd">            aggregation. If there are not enough neighbors, the neighbor</span>
+<span class="sd">            aggregation is set to zero (so the prediction ends up being</span>
+<span class="sd">            equivalent to the baseline). Default is ``1``.</span>
+<span class="sd">        sim_options(dict): A dictionary of options for the similarity</span>
+<span class="sd">            measure. See :ref:`similarity_measures_configuration` for accepted</span>
+<span class="sd">            options. It is recommended to use the :func:`pearson_baseline</span>
+<span class="sd">            &lt;surprise.similarities.pearson_baseline&gt;` similarity measure.</span>
+
+<span class="sd">        bsl_options(dict): A dictionary of options for the baseline estimates</span>
+<span class="sd">            computation. See :ref:`baseline_estimates_configuration` for</span>
+<span class="sd">            accepted options.</span>
+<span class="sd">        verbose(bool): Whether to print trace messages of bias estimation,</span>
+<span class="sd">            similarity, etc.  Default is True.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">min_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sim_options</span><span class="o">=</span><span class="p">{},</span> <span class="n">bsl_options</span><span class="o">=</span><span class="p">{},</span>
+                 <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="n">SymmetricAlgo</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim_options</span><span class="o">=</span><span class="n">sim_options</span><span class="p">,</span>
+                               <span class="n">bsl_options</span><span class="o">=</span><span class="n">bsl_options</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_k</span> <span class="o">=</span> <span class="n">min_k</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainset</span><span class="p">):</span>
+
+        <span class="n">SymmetricAlgo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainset</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bu</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_baselines</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">by</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">switch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bu</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bi</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_similarities</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+
+        <span class="n">est</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">global_mean</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">knows_user</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+            <span class="n">est</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bu</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">knows_item</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+            <span class="n">est</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">switch</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">knows_user</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">knows_item</span><span class="p">(</span><span class="n">i</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">est</span>
+
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">x2</span><span class="p">],</span> <span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yr</span><span class="p">[</span><span class="n">y</span><span class="p">]]</span>
+        <span class="n">k_neighbors</span> <span class="o">=</span> <span class="n">heapq</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># compute weighted average</span>
+        <span class="n">sum_sim</span> <span class="o">=</span> <span class="n">sum_ratings</span> <span class="o">=</span> <span class="n">actual_k</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">nb</span><span class="p">,</span> <span class="n">sim</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="n">k_neighbors</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">sum_sim</span> <span class="o">+=</span> <span class="n">sim</span>
+                <span class="n">nb_bsl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">global_mean</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bx</span><span class="p">[</span><span class="n">nb</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">by</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
+                <span class="n">sum_ratings</span> <span class="o">+=</span> <span class="n">sim</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="n">nb_bsl</span><span class="p">)</span>
+                <span class="n">actual_k</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">actual_k</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_k</span><span class="p">:</span>
+            <span class="n">sum_ratings</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">est</span> <span class="o">+=</span> <span class="n">sum_ratings</span> <span class="o">/</span> <span class="n">sum_sim</span>
+        <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>
+            <span class="k">pass</span>  <span class="c1"># just baseline again</span>
+
+        <span class="n">details</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;actual_k&#39;</span><span class="p">:</span> <span class="n">actual_k</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">est</span><span class="p">,</span> <span class="n">details</span></div>
+
+
+<div class="viewcode-block" id="KNNWithZScore"><a class="viewcode-back" href="../../../knn_inspired.html#surprise.prediction_algorithms.knns.KNNWithZScore">[docs]</a><span class="k">class</span> <span class="nc">KNNWithZScore</span><span class="p">(</span><span class="n">SymmetricAlgo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A basic collaborative filtering algorithm, taking into account</span>
+<span class="sd">    the z-score normalization of each user.</span>
+
+<span class="sd">    The prediction :math:`\\hat{r}_{ui}` is set as:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \hat{r}_{ui} = \mu_u + \sigma_u \\frac{ \\sum\\limits_{v \in N^k_i(u)}</span>
+<span class="sd">        \\text{sim}(u, v) \cdot (r_{vi} - \mu_v) / \sigma_v} {\\sum\\limits_{v</span>
+<span class="sd">        \in N^k_i(u)} \\text{sim}(u, v)}</span>
+
+<span class="sd">    or</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \hat{r}_{ui} = \mu_i + \sigma_i \\frac{ \\sum\\limits_{j \in N^k_u(i)}</span>
+<span class="sd">        \\text{sim}(i, j) \cdot (r_{uj} - \mu_j) / \sigma_j} {\\sum\\limits_{j</span>
+<span class="sd">        \in N^k_u(i)} \\text{sim}(i, j)}</span>
+
+<span class="sd">    depending on the ``user_based`` field of the ``sim_options`` parameter.</span>
+
+<span class="sd">    If :math:`\sigma` is 0, than the overall sigma is used in that case.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        k(int): The (max) number of neighbors to take into account for</span>
+<span class="sd">            aggregation (see :ref:`this note &lt;actual_k_note&gt;`). Default is</span>
+<span class="sd">            ``40``.</span>
+<span class="sd">        min_k(int): The minimum number of neighbors to take into account for</span>
+<span class="sd">            aggregation. If there are not enough neighbors, the neighbor</span>
+<span class="sd">            aggregation is set to zero (so the prediction ends up being</span>
+<span class="sd">            equivalent to the mean :math:`\mu_u` or :math:`\mu_i`). Default is</span>
+<span class="sd">            ``1``.</span>
+<span class="sd">        sim_options(dict): A dictionary of options for the similarity</span>
+<span class="sd">            measure. See :ref:`similarity_measures_configuration` for accepted</span>
+<span class="sd">            options.</span>
+<span class="sd">        verbose(bool): Whether to print trace messages of bias estimation,</span>
+<span class="sd">            similarity, etc.  Default is True.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">min_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sim_options</span><span class="o">=</span><span class="p">{},</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="n">SymmetricAlgo</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim_options</span><span class="o">=</span><span class="n">sim_options</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_k</span> <span class="o">=</span> <span class="n">min_k</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainset</span><span class="p">):</span>
+
+        <span class="n">SymmetricAlgo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainset</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigmas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_x</span><span class="p">)</span>
+        <span class="c1"># when certain sigma is 0, use overall sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">overall_sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">([</span><span class="n">r</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+                                     <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">all_ratings</span><span class="p">()])</span>
+
+        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">ratings</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xr</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">means</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">r</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ratings</span><span class="p">])</span>
+            <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">([</span><span class="n">r</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ratings</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sigmas</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">overall_sigma</span> <span class="k">if</span> <span class="n">sigma</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="k">else</span> <span class="n">sigma</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_similarities</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">knows_user</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainset</span><span class="o">.</span><span class="n">knows_item</span><span class="p">(</span><span class="n">i</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="n">PredictionImpossible</span><span class="p">(</span><span class="s1">&#39;User and/or item is unknown.&#39;</span><span class="p">)</span>
+
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">switch</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">x2</span><span class="p">],</span> <span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yr</span><span class="p">[</span><span class="n">y</span><span class="p">]]</span>
+        <span class="n">k_neighbors</span> <span class="o">=</span> <span class="n">heapq</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">est</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">means</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+
+        <span class="c1"># compute weighted average</span>
+        <span class="n">sum_sim</span> <span class="o">=</span> <span class="n">sum_ratings</span> <span class="o">=</span> <span class="n">actual_k</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">nb</span><span class="p">,</span> <span class="n">sim</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="n">k_neighbors</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">sum_sim</span> <span class="o">+=</span> <span class="n">sim</span>
+                <span class="n">sum_ratings</span> <span class="o">+=</span> <span class="n">sim</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">means</span><span class="p">[</span><span class="n">nb</span><span class="p">])</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmas</span><span class="p">[</span><span class="n">nb</span><span class="p">]</span>
+                <span class="n">actual_k</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">actual_k</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_k</span><span class="p">:</span>
+            <span class="n">sum_ratings</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">est</span> <span class="o">+=</span> <span class="n">sum_ratings</span> <span class="o">/</span> <span class="n">sum_sim</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmas</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>
+            <span class="k">pass</span>  <span class="c1"># return mean</span>
+
+        <span class="n">details</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;actual_k&#39;</span><span class="p">:</span> <span class="n">actual_k</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">est</span><span class="p">,</span> <span class="n">details</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2015, Nicolas Hug
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

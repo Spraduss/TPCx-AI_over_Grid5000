@@ -1,0 +1,364 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>similarities module &mdash; Surprise 1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="accuracy module" href="accuracy.html" />
+    <link rel="prev" title="The model_selection package" href="model_selection.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Surprise
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prediction_algorithms.html">Using prediction algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building_custom_algo.html">How to build your own prediction algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notation_standards.html">Notation standards, References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQ.html">FAQ</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="prediction_algorithms_package.html">prediction_algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_selection.html">The model_selection package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">similarities module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accuracy.html">accuracy module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">dataset module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trainset.html">Trainset class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reader.html">Reader class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dump.html">dump module</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Surprise</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>similarities module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/similarities.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-surprise.similarities">
+<span id="similarities-module"></span><span id="similarities"></span><h1>similarities module<a class="headerlink" href="#module-surprise.similarities" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="#module-surprise.similarities" title="surprise.similarities"><code class="xref py py-mod docutils literal notranslate"><span class="pre">similarities</span></code></a> module includes tools to
+compute similarity metrics between users or items. You may need to refer to the
+<a class="reference internal" href="notation_standards.html#notation-standards"><span class="std std-ref">Notation standards, References</span></a> page. See also the
+<a class="reference internal" href="prediction_algorithms.html#similarity-measures-configuration"><span class="std std-ref">Similarity measure configuration</span></a> section of the User Guide.</p>
+<p>Available similarity measures:</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#surprise.similarities.cosine" title="surprise.similarities.cosine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cosine</span></code></a></p></td>
+<td><p>Compute the cosine similarity between all pairs of users (or items).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#surprise.similarities.msd" title="surprise.similarities.msd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">msd</span></code></a></p></td>
+<td><p>Compute the Mean Squared Difference similarity between all pairs of users (or items).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#surprise.similarities.pearson" title="surprise.similarities.pearson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pearson</span></code></a></p></td>
+<td><p>Compute the Pearson correlation coefficient between all pairs of users (or items).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#surprise.similarities.pearson_baseline" title="surprise.similarities.pearson_baseline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pearson_baseline</span></code></a></p></td>
+<td><p>Compute the (shrunk) Pearson correlation coefficient between all pairs of users (or items) using baselines for centering instead of means.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt id="surprise.similarities.cosine">
+<code class="sig-prename descclassname">surprise.similarities.</code><code class="sig-name descname">cosine</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surprise.similarities.cosine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the cosine similarity between all pairs of users (or items).</p>
+<p>Only <strong>common</strong> users (or items) are taken into account. The cosine
+similarity is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\text{cosine_sim}(u, v) = \frac{
+\sum\limits_{i \in I_{uv}} r_{ui} \cdot r_{vi}}
+{\sqrt{\sum\limits_{i \in I_{uv}} r_{ui}^2} \cdot
+\sqrt{\sum\limits_{i \in I_{uv}} r_{vi}^2}
+}\]</div>
+<p>or</p>
+<div class="math notranslate nohighlight">
+\[\text{cosine_sim}(i, j) = \frac{
+\sum\limits_{u \in U_{ij}} r_{ui} \cdot r_{uj}}
+{\sqrt{\sum\limits_{u \in U_{ij}} r_{ui}^2} \cdot
+\sqrt{\sum\limits_{u \in U_{ij}} r_{uj}^2}
+}\]</div>
+<p>depending on the <code class="docutils literal notranslate"><span class="pre">user_based</span></code> field of <code class="docutils literal notranslate"><span class="pre">sim_options</span></code> (see
+<a class="reference internal" href="prediction_algorithms.html#similarity-measures-configuration"><span class="std std-ref">Similarity measure configuration</span></a>).</p>
+<p>For details on cosine similarity, see on <a class="reference external" href="https://en.wikipedia.org/wiki/Cosine_similarity#Definition">Wikipedia</a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surprise.similarities.msd">
+<code class="sig-prename descclassname">surprise.similarities.</code><code class="sig-name descname">msd</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surprise.similarities.msd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Mean Squared Difference similarity between all pairs of
+users (or items).</p>
+<p>Only <strong>common</strong> users (or items) are taken into account. The Mean Squared
+Difference is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\text{msd}(u, v) = \frac{1}{|I_{uv}|} \cdot
+\sum\limits_{i \in I_{uv}} (r_{ui} - r_{vi})^2\]</div>
+<p>or</p>
+<div class="math notranslate nohighlight">
+\[\text{msd}(i, j) = \frac{1}{|U_{ij}|} \cdot
+\sum\limits_{u \in U_{ij}} (r_{ui} - r_{uj})^2\]</div>
+<p>depending on the <code class="docutils literal notranslate"><span class="pre">user_based</span></code> field of <code class="docutils literal notranslate"><span class="pre">sim_options</span></code> (see
+<a class="reference internal" href="prediction_algorithms.html#similarity-measures-configuration"><span class="std std-ref">Similarity measure configuration</span></a>).</p>
+<p>The MSD-similarity is then defined as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\text{msd_sim}(u, v) &amp;= \frac{1}{\text{msd}(u, v) + 1}\\
+\text{msd_sim}(i, j) &amp;= \frac{1}{\text{msd}(i, j) + 1}\end{split}\]</div>
+<p>The <span class="math notranslate nohighlight">\(+ 1\)</span> term is just here to avoid dividing by zero.</p>
+<p>For details on MSD, see third definition on <a class="reference external" href="https://en.wikipedia.org/wiki/Root-mean-square_deviation#Formula">Wikipedia</a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surprise.similarities.pearson">
+<code class="sig-prename descclassname">surprise.similarities.</code><code class="sig-name descname">pearson</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surprise.similarities.pearson" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Pearson correlation coefficient between all pairs of users
+(or items).</p>
+<p>Only <strong>common</strong> users (or items) are taken into account. The Pearson
+correlation coefficient can be seen as a mean-centered cosine similarity,
+and is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\text{pearson_sim}(u, v) = \frac{ \sum\limits_{i \in I_{uv}}
+(r_{ui} -  \mu_u) \cdot (r_{vi} - \mu_{v})} {\sqrt{\sum\limits_{i
+\in I_{uv}} (r_{ui} -  \mu_u)^2} \cdot \sqrt{\sum\limits_{i \in
+I_{uv}} (r_{vi} -  \mu_{v})^2} }\]</div>
+<p>or</p>
+<div class="math notranslate nohighlight">
+\[\text{pearson_sim}(i, j) = \frac{ \sum\limits_{u \in U_{ij}}
+(r_{ui} -  \mu_i) \cdot (r_{uj} - \mu_{j})} {\sqrt{\sum\limits_{u
+\in U_{ij}} (r_{ui} -  \mu_i)^2} \cdot \sqrt{\sum\limits_{u \in
+U_{ij}} (r_{uj} -  \mu_{j})^2} }\]</div>
+<p>depending on the <code class="docutils literal notranslate"><span class="pre">user_based</span></code> field of <code class="docutils literal notranslate"><span class="pre">sim_options</span></code> (see
+<a class="reference internal" href="prediction_algorithms.html#similarity-measures-configuration"><span class="std std-ref">Similarity measure configuration</span></a>).</p>
+<p>Note: if there are no common users or items, similarity will be 0 (and not
+-1).</p>
+<p>For details on Pearson coefficient, see <a class="reference external" href="https://en.wikipedia.org/wiki/Pearson_product-moment_correlation_coefficient#For_a_sample">Wikipedia</a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surprise.similarities.pearson_baseline">
+<code class="sig-prename descclassname">surprise.similarities.</code><code class="sig-name descname">pearson_baseline</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surprise.similarities.pearson_baseline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the (shrunk) Pearson correlation coefficient between all pairs
+of users (or items) using baselines for centering instead of means.</p>
+<p>The shrinkage parameter helps to avoid overfitting when only few ratings
+are available (see <a class="reference internal" href="prediction_algorithms.html#similarity-measures-configuration"><span class="std std-ref">Similarity measure configuration</span></a>).</p>
+<p>The Pearson-baseline correlation coefficient is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\text{pearson_baseline_sim}(u, v) = \hat{\rho}_{uv} = \frac{
+    \sum\limits_{i \in I_{uv}} (r_{ui} -  b_{ui}) \cdot (r_{vi} -
+    b_{vi})} {\sqrt{\sum\limits_{i \in I_{uv}} (r_{ui} -  b_{ui})^2}
+    \cdot \sqrt{\sum\limits_{i \in I_{uv}} (r_{vi} -  b_{vi})^2}}\]</div>
+<p>or</p>
+<div class="math notranslate nohighlight">
+\[\text{pearson_baseline_sim}(i, j) = \hat{\rho}_{ij} = \frac{
+    \sum\limits_{u \in U_{ij}} (r_{ui} -  b_{ui}) \cdot (r_{uj} -
+    b_{uj})} {\sqrt{\sum\limits_{u \in U_{ij}} (r_{ui} -  b_{ui})^2}
+    \cdot \sqrt{\sum\limits_{u \in U_{ij}} (r_{uj} -  b_{uj})^2}}\]</div>
+<p>The shrunk Pearson-baseline correlation coefficient is then defined as:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\text{pearson_baseline_shrunk_sim}(u, v) &amp;= \frac{|I_{uv}| - 1}
+{|I_{uv}| - 1 + \text{shrinkage}} \cdot \hat{\rho}_{uv}\\\text{pearson_baseline_shrunk_sim}(i, j) &amp;= \frac{|U_{ij}| - 1}
+{|U_{ij}| - 1 + \text{shrinkage}} \cdot \hat{\rho}_{ij}\end{aligned}\end{align} \]</div>
+<p>Obviously, a shrinkage parameter of 0 amounts to no shrinkage at all.</p>
+<p>Note: here again, if there are no common users/items, similarity will be 0
+(and not -1).</p>
+<p>Motivations for such a similarity measure can be found on the <em>Recommender
+System Handbook</em>, section 5.4.1.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="accuracy.html" class="btn btn-neutral float-right" title="accuracy module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="model_selection.html" class="btn btn-neutral float-left" title="The model_selection package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2015, Nicolas Hug
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
