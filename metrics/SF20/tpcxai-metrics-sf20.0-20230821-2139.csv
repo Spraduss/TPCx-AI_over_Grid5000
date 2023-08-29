@@ -1,0 +1,8 @@
+use_case,Phase.SERVING_1,Phase.TRAINING_1,qualitity_metric_name,qualitity_metric_value
+1,65.123,520.229,,-1.0
+3,33.983,69.491,mean_squared_log_error,3.2674853948670575
+4,42.671,149.159,f1_score,0.7009420871978382
+6,40.329,84.232,matthews_corrcoef,0.21443813971709175
+7,33.758,45.556,median_absolute_error,1.5242969999999998
+8,61.106,4671.369,accuracy_score,0.7043769230769231
+10,35.993,86.792,accuracy_score,0.8174732064523182

@@ -1,6 +1,0 @@
-scikit_surprise.egg-info/PKG-INFO
-scikit_surprise.egg-info/SOURCES.txt
-scikit_surprise.egg-info/dependency_links.txt
-scikit_surprise.egg-info/entry_points.txt
-scikit_surprise.egg-info/requires.txt
-scikit_surprise.egg-info/top_level.txt
