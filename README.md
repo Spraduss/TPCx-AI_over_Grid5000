@@ -37,12 +37,12 @@ tar -czf dir_name
 For java, just rename the archive "java8jdk.tar.gz"
 
 # Adaptation to your environment
-Even if I try to make it as general as possible, the file "tpcxai-generation.xml" in "distr/deploy/tpcx-ai/lib/pdgf/config/tpcxai-generation.xml" still contains my username. It **MUST** be replaced by yours (you can use a simple sed command to do so).
+Even if I tried to make it as general as possible, the file "tpcxai-generation.xml" in "distr/deploy/tpcx-ai/lib/pdgf/config/tpcxai-generation.xml" still contains my username. It **MUST** be replaced by yours (you can use a simple sed command to do so).
 ```
 sed -i 's/lruellou/your_username/g' distr/deploy/tpcx-ai/lib/pdgf/config/tpcxai-generation.xml
 ```
 
-# Launch in distributed node (over more than one node)
+# Launch in distributed mode (over more than one node)
 All you have to do is call the setup.sh script with two parameters:
 - The number of loop: only useful when launching the experiments. I recommend to use '1' when launching tests.
 - The name of the run : It will create two directories to store the spark logs and the metric produces by the benchmark to choose an explicit name. For example, "N4_SF10" when launching over 4 nodes with a scale factor of 10.
@@ -64,6 +64,17 @@ After running the benchmark on a wanted configuration (for example 4 nodes and d
 First, execute "mean.py" on each directory. Then gather all the csv files generated into the same directory with an explicit name like "Varying SF with 4 nodes".
 Execute the "show_metrics.py" script with the directory "Varying SF with 4 nodes". It will generate a figure named "Varying SF with 4 nodes".
 
+# Directories "metrics" and "figure"
+These directories contain the result of my previous runs.
 
+## metrics
+Contains all the csv files resulting of the runs. They are grouped by 5 (corresponding to one run).
+- NXX means a run with XX nodes and a scale factor of 10.
+- SFXX means a run with a scale factor of XX over 8 nodes.
+- Varying_SF : group the mean of the runs over 8 nodes, with different scale factors.
+- Varying_nodes : group the mean of the runs with a scale factor of 10, with different number of nodes.
+
+## figures
+Contains the two figures resulting of my runs. Their names are explicit.
 
 
