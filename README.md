@@ -21,7 +21,7 @@ List all the tools used for launching the benchmark and how/where to install the
 - hadoop 3.3.2 : [download](https://archive.apache.org/dist/hadoop/common/hadoop-3.2.2/hadoop-3.2.2.tar.gz)
 - Spark 2.4.8 : [download](https://archive.apache.org/dist/spark/spark-2.4.8/spark-2.4.8.tgz)
 - Python 3.7.13 : [download](https://www.python.org/ftp/python/3.7.17/Python-3.7.17.tgz)
-- java 8 jdk : [download](https://javadl.oracle.com/webapps/download/AutoDL?BundleId=248219_ce59cff5c23f4e2eaf4e778a117d4c5b)
+- java 8 jdk (version 371) : [download](https://javadl.oracle.com/webapps/download/AutoDL?BundleId=248219_ce59cff5c23f4e2eaf4e778a117d4c5b)
 - TPCx-AI v1.0.2 : [fill the form](https://www.tpc.org/TPC_Documents_Current_Versions/download_programs/tools-download-request5.asp?bm_type=TPCX-AI&bm_vers=1.0.2&mode=CURRENT-ONLY)
 
 ## Procedure for hadoop, java8 and TPCx-AI
@@ -47,7 +47,7 @@ All you have to do is call the setup.sh script with two parameters:
 - The number of loop: only useful when launching the experiments. I recommend to use '1' when launching tests.
 - The name of the run : It will create two directories to store the spark logs and the metric produces by the benchmark to choose an explicit name. For example, "N4_SF10" when launching over 4 nodes with a scale factor of 10.
 
-The explanations of the script can be found on the README file of the Arthur Galet's repository.
+The explanations of the script can be found on the [README](https://github.com/ArthurGalet/tpcx-ai-grid5000#readme) file of the Arthur Galet's repository.
 
 # Using the python scripts
 I did not test those script on Grid'5000, only on my own computer.
