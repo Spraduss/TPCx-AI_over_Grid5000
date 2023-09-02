@@ -7,6 +7,11 @@ cd ~/
 mv TPCx-AI_over_Grid5000/* ./
 ```
 
+## Clusters tested
+During my internship, I have run this scripts on paravance and parasilo (the 2 clusters of the default queue of Rennes).
+When launching on **parasilo**, It is mandatory to have rented at least one disk per node **BEFORE** renting the wanted node.
+On **paravance**, the disk are automatically included when renting a node.
+
 # References
 Here are three GitHub repositories that I used during my internship :
 - [Arthur Galet's repository](https://github.com/ArthurGalet/tpcx-ai-grid5000): where I get the base configuration files and scripts
